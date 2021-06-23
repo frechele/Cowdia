@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
 # Declare project
-project(Renderer)
+project(Cowdia)
 
 # Set output directories
 set(DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
@@ -14,4 +14,4 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 include_directories(Includes)
 
 # Project modules
-add_subdirectory(Sources/Renderer)
+add_subdirectory(Sources/Cowdia)

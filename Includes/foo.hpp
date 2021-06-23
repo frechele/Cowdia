@@ -1,6 +1,0 @@
-#ifndef RENDERER_FOO_HPP
-#define RENDERER_FOO_HPP
-
-
-
-#endif  // RENDERER_FOO_HPP
