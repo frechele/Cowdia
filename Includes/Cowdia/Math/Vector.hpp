@@ -18,7 +18,7 @@ class VectorBase
 
     //! Constructor with elements.
     template <typename... Args>
-    VectorBase(Args... args);
+    explicit VectorBase(Args... args);
 
     //! Default copy constructor.
     VectorBase(const VectorBase<T, DIM>&) = default;
