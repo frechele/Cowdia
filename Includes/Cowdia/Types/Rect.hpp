@@ -16,15 +16,15 @@ class Rect final
     //! Constructor with full arguments.
     constexpr Rect(T left, T top, T width, T height);
 
-    constexpr T GetLeft() const;
-    constexpr T GetRight() const;
-    constexpr T GetTop() const;
-    constexpr T GetBottom() const;
-    constexpr T GetWidth() const;
-    constexpr T GetHeight() const;
+    [[nodiscard]] constexpr T GetLeft() const;
+    [[nodiscard]] constexpr T GetRight() const;
+    [[nodiscard]] constexpr T GetTop() const;
+    [[nodiscard]] constexpr T GetBottom() const;
+    [[nodiscard]] constexpr T GetWidth() const;
+    [[nodiscard]] constexpr T GetHeight() const;
 
-    constexpr bool operator==(const Rect<T>& other) const;
-    constexpr bool operator!=(const Rect<T>& other) const;
+    [[nodiscard]] constexpr bool operator==(const Rect<T>& other) const;
+    [[nodiscard]] constexpr bool operator!=(const Rect<T>& other) const;
 
  private:
     T left_{ 0 };
