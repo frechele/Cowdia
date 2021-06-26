@@ -11,20 +11,12 @@ add_executable(${target} ${sources})
 
 target_compile_definitions(${target}
     PRIVATE
-    
-    PUBLIC
     ${DEFAULT_COMPILE_DEFINITIONS}
-    
-    INTERFACE
 )
 
 target_compile_options(${target}
     PRIVATE
-    
-    PUBLIC
     ${DEFAULT_COMPILE_OPTIONS}
-    
-    INTERFACE
 )
 
 set_target_properties(${target}
@@ -34,9 +26,6 @@ set_target_properties(${target}
 
 target_link_libraries(${target}
     PRIVATE
-
-    PUBLIC
     ${DEFAULT_LINKER_OPTIONS}
-
-    INTERFACE
+    Cowdia
 )

@@ -23,3 +23,9 @@ include(CMake/CompileOptions.cmake)
 # Project modules
 add_subdirectory(Sources/Cowdia)
 add_subdirectory(Tests/UnitTests)
+
+# Plugins
+add_subdirectory(Extensions/D3D12Renderer)
+
+# Applications
+add_subdirectory(Extensions/TestApp)
