@@ -17,6 +17,7 @@ Plugin* PluginManager::Load(const std::string& name)
         return it->second.get();
 
     plugins_[name] = std::make_unique<Plugin>(name);
+    plugins_[name]->Load();
 
     return plugins_[name].get();
 }
