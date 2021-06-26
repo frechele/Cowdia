@@ -17,6 +17,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 include_directories(Includes)
 include_directories(Libraries/doctest/doctest)
 
+# Compile options
+include(CMake/CompileOptions.cmake)
+
 # Project modules
 add_subdirectory(Sources/Cowdia)
 add_subdirectory(Tests/UnitTests)
