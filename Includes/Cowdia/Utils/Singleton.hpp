@@ -13,7 +13,7 @@ class Singleton
     Singleton()
     {
         assert(instance_ == nullptr);
-        instance_ = *this;
+        instance_ = reinterpret_cast<T*>(this);
     }
 
     //! Default destructor.
