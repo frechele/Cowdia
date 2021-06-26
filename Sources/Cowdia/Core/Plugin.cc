@@ -6,8 +6,6 @@
 #ifdef COWDIA_PLATFORM_WIN32
 #define NOMINMAX
 #include <Windows.h>
-#else
-#error "Not supported"
 #endif
 
 namespace
@@ -27,6 +25,21 @@ Cowdia::Core::PluginMain LoadPluginMain(Cowdia::Core::PluginHandle handle)
 {
     return reinterpret_cast<Cowdia::Core::PluginMain>(
         GetProcAddress(reinterpret_cast<HINSTANCE>(handle), "PluginMain"));
+}
+#else
+Cowdia::Core::PluginHandle LoadDynamicLibrary([[maybe_unused]] const std::string& name)
+{
+    return nullptr;
+}
+
+int UnloadDynamicLibrary([[maybe_unused]] Cowdia::Core::PluginHandle handle)
+{
+    return -1;
+}
+
+Cowdia::Core::PluginMain LoadPluginMain([[maybe_unused]] Cowdia::Core::PluginHandle handle)
+{
+    return nullptr;
 }
 #endif
 }  // namespace
