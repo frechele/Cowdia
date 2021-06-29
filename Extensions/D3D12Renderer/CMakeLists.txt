@@ -1,10 +1,13 @@
 # Target name
-set(target Cowdia)
+set(target D3D12Renderer)
+
+# Includes
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Sources
 file(GLOB_RECURSE sources ${CMAKE_CURRENT_SOURCE_DIR}/*.cc)
 
-add_library(${target} STATIC ${sources})
+add_library(${target} SHARED ${sources})
 
 target_compile_definitions(${target}
     PRIVATE
@@ -24,6 +27,7 @@ set_target_properties(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LINKER_OPTIONS}
+    Cowdia
 )
 
 # Install
