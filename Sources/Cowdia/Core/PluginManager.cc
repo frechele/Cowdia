@@ -6,29 +6,58 @@ namespace Cowdia::Core
 {
 PluginManager::~PluginManager()
 {
-    for (auto& pr : plugins_)
+    for (auto it : plugins_)
+    {
+        it->OnUninstalled();
+
+        // the instance of plugin is not allocated in engine code.
+        // so we must not deallocate.
+    }
+
+    for (auto& pr : assemblies_)
+    {
         pr.second->Unload();
+        delete pr.second;
+    }
 }
 
-Plugin* PluginManager::Load(const std::string& name)
+void PluginManager::Load(const std::string& name)
 {
-    const auto it = plugins_.find(name);
-    if (it != end(plugins_))
-        return it->second.get();
+    const auto it = assemblies_.find(name);
+    if (it != end(assemblies_))
+        return;
 
-    plugins_[name] = std::make_unique<Plugin>(name);
-    plugins_[name]->Load();
+    const auto plugin = assemblies_[name] = new PluginAssembly(name);
+    plugin->Load();
 
-    return plugins_[name].get();
+    plugin->GetProc("OnPluginLoad")();
 }
 
 void PluginManager::Unload(const std::string& name)
 {
-    const auto it = plugins_.find(name);
-    if (it == end(plugins_))
+    const auto it = assemblies_.find(name);
+    if (it == end(assemblies_))
         return;
 
+    it->second->GetProc("OnPluginUnload")();
+
     it->second->Unload();
-    plugins_.erase(it);
+    delete it->second;
+
+    assemblies_.erase(it);
+}
+
+void PluginManager::Install(Plugin* plugin)
+{
+    assert(plugins_.find(plugin) == end(plugins_));
+
+    plugins_.emplace(plugin);
+    plugin->OnInstalled();
+}
+
+void PluginManager::Uninstall(Plugin* plugin)
+{
+    plugin->OnUninstalled();
+    plugins_.erase(plugin);
 }
 }  // namespace Cowdia::Core
