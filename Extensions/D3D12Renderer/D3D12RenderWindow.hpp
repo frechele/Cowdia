@@ -12,7 +12,7 @@ namespace Cowdia::Rendering
 class COWDIA_D3D12_API D3D12RenderWindow final : public RenderWindow
 {
  public:
-    D3D12RenderWindow(HINSTANCE hInstance);
+    explicit D3D12RenderWindow(HINSTANCE hInstance);
 
     bool Create(int width, int height, bool fullcscreen) override;
     void Destroy() override;
