@@ -1,13 +1,14 @@
 #ifndef COWDIA_RENDER_WINDOW_HPP
 #define COWDIA_RENDER_WINDOW_HPP
 
+#include <Cowdia/Core/Common.hpp>
 #include <Cowdia/Types/Rect.hpp>
 
 #include <string>
 
 namespace Cowdia::Rendering
 {
-class RenderWindow
+class COWDIA_API RenderWindow
 {
  public:
     //! Default destructor.
@@ -18,7 +19,7 @@ class RenderWindow
     //! \param height window height.
     //! \param fullscreen whether make window fullscreen or not.
     //! \return true if success to create.
-    virtual bool Create(int width, int height, bool fullscreen) = 0;
+    [[nodiscard]] virtual bool Create(int width, int height, bool fullscreen) = 0;
 
     //! Destroy window.
     virtual void Destroy() = 0;
@@ -30,22 +31,22 @@ class RenderWindow
     //! Resize window.
     //! \param width new window width.
     //! \param height new window height.
-    virtual void Resize(int width, int height) = 0;
+    virtual void Resize(int width, int height);
 
     //! Set fullscreen mode.
     //! \param fullscreen whether make window fullscreen or not.
-    virtual void Fullscreen(bool fullscreen) = 0;
+    virtual void Fullscreen(bool fullscreen);
 
     //! Returns window size.
-    Types::Recti GetSize() const;
+    [[nodiscard]] Types::Recti GetSize() const;
 
     //! Returns whether window is full or not.
-    bool IsFullscreen() const;
+    [[nodiscard]] bool IsFullscreen() const;
 
- protected:
+ private:
     int width_{ 0 };
     int height_{ 0 };
-    bool fullScreen_{ false };
+    bool fullscreen_{ false };
 };
 }
 
