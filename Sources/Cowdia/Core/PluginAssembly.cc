@@ -37,7 +37,7 @@ int UnloadDynamicLibrary([[maybe_unused]] Cowdia::Core::PluginHandle handle)
     return -1;
 }
 
-Cowdia::Core::PluginMain LoadPluginMain([[maybe_unused]] Cowdia::Core::PluginHandle handle)
+Cowdia::Core::PluginMain LoadPluginProc([[maybe_unused]] Cowdia::Core::PluginHandle handle, [[maybe_unused]] const std::string& procName)
 {
     return nullptr;
 }
