@@ -25,7 +25,9 @@ add_subdirectory(Sources/Cowdia)
 add_subdirectory(Tests/UnitTests)
 
 # Plugins
+if(WIN32)
 add_subdirectory(Extensions/D3D12Renderer)
+endif()
 
 # Applications
 add_subdirectory(Extensions/TestApp)

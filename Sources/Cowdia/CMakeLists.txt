@@ -4,11 +4,12 @@ set(target Cowdia)
 # Sources
 file(GLOB_RECURSE sources ${CMAKE_CURRENT_SOURCE_DIR}/*.cc)
 
-add_library(${target} STATIC ${sources})
+add_library(${target} SHARED ${sources})
 
 target_compile_definitions(${target}
     PRIVATE
     ${DEFAULT_COMPILE_DEFINITIONS}
+    COWDIA_API_EXPORT
 )
 
 target_compile_options(${target}

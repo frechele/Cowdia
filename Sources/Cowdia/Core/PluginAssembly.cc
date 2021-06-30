@@ -1,4 +1,4 @@
-#include <Cowdia/Core/Plugin.hpp>
+#include <Cowdia/Core/PluginAssembly.hpp>
 
 #include <cassert>
 #include <stdexcept>
@@ -21,10 +21,10 @@ int UnloadDynamicLibrary(Cowdia::Core::PluginHandle handle)
     return FreeLibrary(reinterpret_cast<HINSTANCE>(handle));
 }
 
-Cowdia::Core::PluginMain LoadPluginMain(Cowdia::Core::PluginHandle handle)
+Cowdia::Core::PluginProc LoadPluginProc(Cowdia::Core::PluginHandle handle, const std::string& procName)
 {
-    return reinterpret_cast<Cowdia::Core::PluginMain>(
-        GetProcAddress(reinterpret_cast<HINSTANCE>(handle), "PluginMain"));
+    return reinterpret_cast<Cowdia::Core::PluginProc>(
+        GetProcAddress(reinterpret_cast<HINSTANCE>(handle), procName.c_str()));
 }
 #else
 Cowdia::Core::PluginHandle LoadDynamicLibrary([[maybe_unused]] const std::string& name)
@@ -37,7 +37,7 @@ int UnloadDynamicLibrary([[maybe_unused]] Cowdia::Core::PluginHandle handle)
     return -1;
 }
 
-Cowdia::Core::PluginMain LoadPluginMain([[maybe_unused]] Cowdia::Core::PluginHandle handle)
+Cowdia::Core::PluginProc LoadPluginProc([[maybe_unused]] Cowdia::Core::PluginHandle handle, [[maybe_unused]] const std::string& procName)
 {
     return nullptr;
 }
@@ -46,12 +46,12 @@ Cowdia::Core::PluginMain LoadPluginMain([[maybe_unused]] Cowdia::Core::PluginHan
 
 namespace Cowdia::Core
 {
-Plugin::Plugin(const std::string& name) : name_(name)
+PluginAssembly::PluginAssembly(const std::string& name) : name_(name)
 {
     // Do nothing.
 }
 
-void Plugin::Load()
+void PluginAssembly::Load()
 {
     using namespace std::string_literals;
 
@@ -63,7 +63,7 @@ void Plugin::Load()
     }
 }
 
-void Plugin::Unload()
+void PluginAssembly::Unload()
 {
     using namespace std::string_literals;
 
@@ -77,15 +77,15 @@ void Plugin::Unload()
     handle_ = nullptr;
 }
 
-const std::string& Plugin::GetName() const noexcept
+const std::string& PluginAssembly::GetName() const noexcept
 {
     return name_;
 }
 
-PluginMain Plugin::GetPluginMain() const
+PluginProc PluginAssembly::GetProc(const std::string& procName) const
 {
     assert(handle_ != nullptr);
 
-    return LoadPluginMain(handle_);
+    return LoadPluginProc(handle_, procName);
 }
 }  // namespace Cowdia::Core

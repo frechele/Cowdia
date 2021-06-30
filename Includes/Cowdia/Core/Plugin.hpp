@@ -1,34 +1,21 @@
 #ifndef COWDIA_PLUGIN_HPP
 #define COWDIA_PLUGIN_HPP
 
-#include <string>
+#include <Cowdia/Core/Common.hpp>
 
 namespace Cowdia::Core
 {
-using PluginHandle = void*;
-using PluginMain = int (*)(void);
-
-class Plugin final
+class COWDIA_API Plugin
 {
  public:
-    //! Constructor with plugin name.
-    explicit Plugin(const std::string& name);
+    //! Default destructor.
+    virtual ~Plugin() = default;
 
-    //! Load plugin.
-    void Load();
+    //! Triggered when this plugin is installed.
+    virtual void OnInstalled() = 0;
 
-    //! Unload plugin.
-    void Unload();
-
-    //! Returns plugin name.
-    [[nodiscard]] const std::string& GetName() const noexcept;
-
-    //! Load plugin main entry.
-    [[nodiscard]] PluginMain GetPluginMain() const;
-
- private:
-    std::string name_;
-    PluginHandle handle_{ nullptr };
+    //! Triggered when this plugin is uninstalled.
+    virtual void OnUninstalled() = 0;
 };
 }  // namespace Cowdia::Core
 
