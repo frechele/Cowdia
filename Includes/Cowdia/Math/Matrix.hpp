@@ -10,7 +10,7 @@ template <typename T>
 class Matrix
 {
  public:
-	static constexpr std::size_t MAT_SIZE = 4;
+    static constexpr std::size_t MAT_SIZE = 4;
 
     //! Default constructor.
     Matrix() = default;

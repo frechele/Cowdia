@@ -6,26 +6,24 @@ using namespace Cowdia;
 
 TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
 {
-    Math::Matrix<int> A{ 1,  2,  3,  4,
-                         5,  6,  7,  8,
-	                     9,  10, 11, 12,
-	                     12, 14, 15, 16};
-    Math::Matrix<int> B{ 3,  4,  5,  6,
-                         7,  8,  9,  10,
-	                     11, 12, 13, 14,
-	                     15, 16, 17, 18};
+    Math::Matrix<int> A{
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 14, 15, 16
+    };
+    Math::Matrix<int> B{
+        3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+    };
     for (int i = 0; i < A.MAT_SIZE; ++i)
     {
         for (int j = 0; j < A.MAT_SIZE; ++j)
         {
             CHECK_EQ(A.At(i, j), i * 4 + j + 1);
             CHECK_EQ(B.At(i, j), i * 4 + j + 3);
-		}
-	}
+        }
+    }
 
     Math::Matrix<int> AplusB = A + B;
 
-	for (int i = 0; i < A.MAT_SIZE; ++i)
+    for (int i = 0; i < A.MAT_SIZE; ++i)
     {
         for (int j = 0; j < A.MAT_SIZE; ++j)
         {
