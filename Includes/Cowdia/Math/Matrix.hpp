@@ -7,7 +7,7 @@
 namespace Cowdia::Math
 {
 template <typename T>
-class Matrix
+class Matrix final
 {
  public:
     static constexpr std::size_t MAT_SIZE = 4;
@@ -62,7 +62,7 @@ class Matrix
     template <typename U>
     Matrix<T>& operator/=(U value);
 
- protected:
+ private:
     T elem_[MAT_SIZE][MAT_SIZE];
 };
 
@@ -91,8 +91,8 @@ Matrix<T> Matrix<T>::operator+(const Matrix<U>& other) const
 {
     Matrix<T> ret{ *this };
 
-    for (int i = 0; i < MAT_SIZE; ++i)
-        for (int j = 0; j < MAT_SIZE; ++j)
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
             ret.elem_[i][j] += other.elem_[i][j];
 
     return ret;
@@ -104,8 +104,8 @@ Matrix<T> Matrix<T>::operator-(const Matrix<U>& other) const
 {
     Matrix<T> ret{ *this };
 
-    for (int i = 0; i < MAT_SIZE; ++i)
-        for (int j = 0; j < MAT_SIZE; ++j)
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
             ret.elem_[i][j] -= other.elem_[i][j];
 
     return ret;
@@ -124,8 +124,8 @@ Matrix<T> Matrix<T>::operator*(U x) const
 {
     Matrix<T> ret{ *this };
 
-    for (int i = 0; i < MAT_SIZE; ++i)
-        for (int j = 0; j < MAT_SIZE; ++j)
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
             ret.elem_[i][j] *= x;
 
     return ret;
@@ -137,8 +137,8 @@ Matrix<T> Matrix<T>::operator/(U x) const
 {
     Matrix<T> ret{ *this };
 
-    for (int i = 0; i < MAT_SIZE; ++i)
-        for (int j = 0; j < MAT_SIZE; ++j)
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
             ret.elem_[i][j] /= x;
 
     return ret;
@@ -148,8 +148,8 @@ template <typename T>
 template <typename U>
 Matrix<T>& Matrix<T>::operator+=(const Matrix<U>& other)
 {
-    for (int i = 0; i < MAT_SIZE; ++i)
-        for (int j = 0; j < MAT_SIZE; ++j)
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
             elem_[i][j] += other.elem_[i][j];
 
     return *this;
@@ -159,8 +159,8 @@ template <typename T>
 template <typename U>
 Matrix<T>& Matrix<T>::operator-=(const Matrix<U>& other)
 {
-    for (int i = 0; i < MAT_SIZE; ++i)
-        for (int j = 0; j < MAT_SIZE; ++j)
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
             elem_[i][j] -= other.elem_[i][j];
 
     return *this;
@@ -170,8 +170,8 @@ template <typename T>
 template <typename U>
 Matrix<T>& Matrix<T>::operator*=(U x)
 {
-    for (int i = 0; i < MAT_SIZE; ++i)
-        for (int j = 0; j < MAT_SIZE; ++j)
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
             elem_[i][j] *= x;
 
     return *this;
@@ -181,8 +181,8 @@ template <typename T>
 template <typename U>
 Matrix<T>& Matrix<T>::operator/=(U x)
 {
-    for (int i = 0; i < MAT_SIZE; ++i)
-        for (int j = 0; j < MAT_SIZE; ++j)
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
             elem_[i][j] /= x;
 
     return *this;
