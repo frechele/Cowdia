@@ -6,28 +6,28 @@ using namespace Cowdia;
 
 TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
 {
-    Math::Matrix<int> A{
+    Math::Matrixi A{
         1,  2,  3,  4, 
         5,  6,  7, 8,
         9,  10, 11, 12, 
         13, 14, 15, 16
     };
 
-    Math::Matrix<int> B{
+    Math::Matrixi B{
         3,  4,  5,  6, 
         7,  8,  9,  10, 
         11, 12, 13, 14, 
         15, 16, 17, 18
     };
 
-    Math::Matrix<int> C{
+    Math::Matrixi C{
         1,  1,  1,  1, 
         1,  1,  1,  1, 
         1,  1,  1,  1, 
         1,  1,  1,  1
     };
 
-    Math::Matrix<int> D{ 
+    Math::Matrixi D{ 
         1,  1,  1,  1, 
         1,  1,  1,  1, 
         1,  1,  1,  1, 
@@ -43,7 +43,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         }
     }
 
-    Math::Matrix<int> AplusB = A + B;
+    Math::Matrixi AplusB = A + B;
 
     for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
     {
@@ -53,7 +53,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         }
     }
 
-    Math::Matrix<int> BminusA = B - A;
+    Math::Matrixi BminusA = B - A;
     for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
     {
         for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
@@ -62,7 +62,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         }
     }
 
-	Math::Matrix<int> CmulD = C * D;
+	Math::Matrixi CmulD = C * D;
     for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
     {
         for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
@@ -71,7 +71,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         }
     }
 
-	Math::Matrix<int> Aplus2 = A + 2;
+	Math::Matrixi Aplus2 = A + 2;
     for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
     {
         for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
@@ -80,7 +80,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         }
     }
 
-	Math::Matrix<int> Aminus2 = A - 2;
+	Math::Matrixi Aminus2 = A - 2;
     for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
     {
         for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
@@ -89,7 +89,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         }
     }
 
-    Math::Matrix<int> Amul = A * 3;
+    Math::Matrixi Amul = A * 3;
     for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
     {
         for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
@@ -98,7 +98,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         }
     }
 
-    Math::Matrix<int> Adiv = A / 2;
+    Math::Matrixi Adiv = A / 2;
     for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
     {
         for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)

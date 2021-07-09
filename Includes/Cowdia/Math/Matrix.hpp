@@ -35,10 +35,10 @@ class Matrix final
     Matrix<T>& operator=(Matrix<T>&&) = default;
 
     //! Returns zero matrix
-    static Matrix<T> zero();
+    static Matrix<T> Zero();
 
     //! Returns indentity matrix
-    static Matrix<T> identity();
+    static Matrix<T> Identity();
 
     //! Returns element at \p idx.
     //! \param idx the index of element.
@@ -82,6 +82,9 @@ class Matrix final
     T elem_[MAT_SIZE][MAT_SIZE];
 };
 
+using Matrixi = Matrix<int>;
+using Matrixf = Matrix<float>;
+
 template <typename T>
 template <typename... Args>
 Matrix<T>::Matrix(Args... args) : elem_{ args... }
@@ -90,13 +93,13 @@ Matrix<T>::Matrix(Args... args) : elem_{ args... }
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::zero()
+Matrix<T> Matrix<T>::Zero()
 {
     return Matrix<T>(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::identity()
+Matrix<T> Matrix<T>::Identity()
 {
     return Matrix<T>(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 }
@@ -143,7 +146,7 @@ template <typename T>
 template <typename U>
 Matrix<T> Matrix<T>::operator*(const Matrix<U>& other) const
 {
-    Matrix<T> ret = zero();
+    Matrix<T> ret = Zero();
     for (std::size_t i = 0; i < MAT_SIZE; ++i)
         for (std::size_t j = 0; j < MAT_SIZE; ++j)
             for (std::size_t k = 0; k < MAT_SIZE; ++k)
@@ -229,7 +232,7 @@ template <typename T>
 template <typename U>
 Matrix<T>& Matrix<T>::operator*=(const Matrix<U>& other)
 {
-    Matrix<T> tmp = zero();
+    Matrix<T> tmp = Zero();
 
     for (std::size_t i = 0; i < MAT_SIZE; ++i)
         for (std::size_t j = 0; j < MAT_SIZE; ++j)
