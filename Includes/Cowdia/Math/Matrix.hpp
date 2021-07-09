@@ -3,8 +3,6 @@
 
 #include <cmath>
 #include <cstddef>
-#define ZERO_MATRIX_INITIALIZER Cowdia::Math::Matrix({ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 })
-#define IDENTITY_MATRIX_INITIALIZER Cowdia::Math::Matrix({ 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 })
 
 namespace Cowdia::Math
 {
@@ -35,6 +33,12 @@ class Matrix final
 
     //! Default move assignment operator.
     Matrix<T>& operator=(Matrix<T>&&) = default;
+
+    //! Returns zero matrix
+    static Matrix<T> zero() const;
+
+    //! Returns indentity matrix
+    static Matrix<T> identity() const;
 
     //! Returns element at \p idx.
     //! \param idx the index of element.
@@ -86,6 +90,18 @@ Matrix<T>::Matrix(Args... args) : elem_{ args... }
 }
 
 template <typename T>
+Matrix<T> Matrix<T>::zero()
+{
+    return Matrix<T>(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::identity()
+{
+    return Matrix<T>(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+}
+
+template <typename T>
 T Matrix<T>::At(std::size_t y, std::size_t x) const
 {
     return elem_[y][x];
@@ -127,7 +143,7 @@ template <typename T>
 template <typename U>
 Matrix<T> Matrix<T>::operator*(const Matrix<U>& other) const
 {
-    Matrix<T> ret = ZERO_MATRIX_INITIALIZER;
+    Matrix<T> ret = zero();
     for (std::size_t i = 0; i < MAT_SIZE; ++i)
         for (std::size_t j = 0; j < MAT_SIZE; ++j)
             for (std::size_t k = 0; k < MAT_SIZE; ++k)
@@ -213,7 +229,7 @@ template <typename T>
 template <typename U>
 Matrix<T>& Matrix<T>::operator*=(const Matrix<U>& other)
 {
-    Matrix<T> tmp = ZERO_MATRIX_INITIALIZER;
+    Matrix<T> tmp = zero();
 
     for (std::size_t i = 0; i < MAT_SIZE; ++i)
         for (std::size_t j = 0; j < MAT_SIZE; ++j)
