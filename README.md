@@ -1,5 +1,5 @@
 # Cowdia
-![Logo](Medias/logo.png)  
+<img src="Medias/logo.png" width=256 height=256 />  
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/JYPark09/LICENSE)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/JYPark09/Cowdia.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/JYPark09/Cowdia/alerts/)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/JYPark09/Cowdia.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/JYPark09/Cowdia/context:cpp)
