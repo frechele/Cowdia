@@ -230,7 +230,7 @@ VectorBase<T, DIM>& VectorBase<T, DIM>::operator-=(U x)
     for (std::size_t i = 0; i < DIM; ++i)
         ret.elem_[i] -= x;
 
-    return ret;
+    return *this;
 }
 
 template <typename T, std::size_t DIM>
