@@ -3,6 +3,8 @@
 
 #include <cmath>
 #include <cstddef>
+#define ZERO_MATRIX_INITIALIZER Cowdia::Math::Matrix({ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 })
+#define IDENTITY_MATRIX_INITIALIZER Cowdia::Math::Matrix({ 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 })
 
 namespace Cowdia::Math
 {
@@ -11,12 +13,6 @@ class Matrix final
 {
  public:
     static constexpr std::size_t MAT_SIZE = 4;
-    static constexpr Matrix zero{
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	};
-    static constexpr Matrix identity{
-        1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
-    };
 
     //! Default constructor.
     Matrix() = default;
@@ -131,12 +127,12 @@ template <typename T>
 template <typename U>
 Matrix<T> Matrix<T>::operator*(const Matrix<U>& other) const
 {
-    Matrix<T> ret = zero;
+    Matrix<T> ret = ZERO_MATRIX_INITIALIZER;
     for (std::size_t i = 0; i < MAT_SIZE; ++i)
         for (std::size_t j = 0; j < MAT_SIZE; ++j)
             for (std::size_t k = 0; k < MAT_SIZE; ++k)
-                ret[i][j] += elem_[i][k] * other.elem_[k][j];
-	return ret;
+                ret.elem_[i][j] += elem_[i][k] * other.elem_[k][j];
+    return ret;
 }
 
 template <typename T>
@@ -217,14 +213,14 @@ template <typename T>
 template <typename U>
 Matrix<T>& Matrix<T>::operator*=(const Matrix<U>& other)
 {
-    Matrix<T> tmp = zero;
+    Matrix<T> tmp = ZERO_MATRIX_INITIALIZER;
 
     for (std::size_t i = 0; i < MAT_SIZE; ++i)
         for (std::size_t j = 0; j < MAT_SIZE; ++j)
             for (std::size_t k = 0; k < MAT_SIZE; ++k)
-                tmp[i][j] += elem_[i][k] * other.elem_[k][j];
+                tmp.elem_[i][j] += elem_[i][k] * other.elem_[k][j];
 
-	*this = tmp;
+    *this = tmp;
 
     return *this;
 }
