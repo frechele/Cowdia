@@ -15,10 +15,10 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
     };
 
 	Math::Matrix<int> C{
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-	};
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    };
 
-    Math::Matrix<int> D{ 
+	Math::Matrix<int> D{ 
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 
 	};
 
