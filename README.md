@@ -30,9 +30,8 @@ You can contact me via e-mail (jyp10987 at gmail.com).
 ## License
 The class is licensed under the [MIT License](https://opensource.org/licenses/MIT):
 
-Copyright ¨Ï 2021 Cowdia Team
+Copyright â“’ 2021 Cowdia Team
 - [Junyeong Park](https://github.com/JYPark09)
 - [Seokwon Moon](https://github.com/you4rin)
 - [Hyeonjung Gang](https://github.com/Friedonion)
 - [Gaon Choi](https://github.com/Gaon-Choi)
-- 
