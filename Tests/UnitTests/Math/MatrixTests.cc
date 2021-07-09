@@ -14,13 +14,13 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
     };
 
-	Math::Matrix<int> C{
+    Math::Matrix<int> C{
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
     };
 
-	Math::Matrix<int> D{ 
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 
-	};
+    Math::Matrix<int> D{ 
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 
+    };
 
     for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
     {
