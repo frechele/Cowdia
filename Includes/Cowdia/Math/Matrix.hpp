@@ -11,6 +11,12 @@ class Matrix final
 {
  public:
     static constexpr std::size_t MAT_SIZE = 4;
+    static constexpr Matrix zero{
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	};
+    static constexpr Matrix identity{
+        1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+    };
 
     //! Default constructor.
     Matrix() = default;
@@ -49,6 +55,10 @@ class Matrix final
     template <typename U>
     Matrix<T> operator*(const Matrix<U>& other) const;
     template <typename U>
+    Matrix<T> operator+(U value) const;
+    template <typename U>
+    Matrix<T> operator-(U value) const;
+    template <typename U>
     Matrix<T> operator*(U value) const;
     template <typename U>
     Matrix<T> operator/(U value) const;
@@ -57,6 +67,12 @@ class Matrix final
     Matrix<T>& operator+=(const Matrix<U>& other);
     template <typename U>
     Matrix<T>& operator-=(const Matrix<U>& other);
+    template <typename U>
+    Matrix<T>& operator*=(const Matrix<U>& other);
+    template <typename U>
+    Matrix<T>& operator+=(U value);
+    template <typename U>
+    Matrix<T>& operator-=(U value);
     template <typename U>
     Matrix<T>& operator*=(U value);
     template <typename U>
@@ -115,7 +131,38 @@ template <typename T>
 template <typename U>
 Matrix<T> Matrix<T>::operator*(const Matrix<U>& other) const
 {
-    // Not Implemented Yet
+    Matrix<T> ret = zero;
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
+            for (std::size_t k = 0; k < MAT_SIZE; ++k)
+                ret[i][j] += elem_[i][k] * other.elem_[k][j];
+	return ret;
+}
+
+template <typename T>
+template <typename U>
+Matrix<T> Matrix<T>::operator+(U x) const
+{
+    Matrix<T> ret{ *this };
+
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
+            ret.elem_[i][j] += x;
+
+    return ret;
+}
+
+template <typename T>
+template <typename U>
+Matrix<T> Matrix<T>::operator-(U x) const
+{
+    Matrix<T> ret{ *this };
+
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
+            ret.elem_[i][j] -= x;
+
+    return ret;
 }
 
 template <typename T>
@@ -162,6 +209,44 @@ Matrix<T>& Matrix<T>::operator-=(const Matrix<U>& other)
     for (std::size_t i = 0; i < MAT_SIZE; ++i)
         for (std::size_t j = 0; j < MAT_SIZE; ++j)
             elem_[i][j] -= other.elem_[i][j];
+
+    return *this;
+}
+
+template <typename T>
+template <typename U>
+Matrix<T>& Matrix<T>::operator*=(const Matrix<U>& other)
+{
+    Matrix<T> tmp = zero;
+
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
+            for (std::size_t k = 0; k < MAT_SIZE; ++k)
+                tmp[i][j] += elem_[i][k] * other.elem_[k][j];
+
+	*this = tmp;
+
+    return *this;
+}
+
+template <typename T>
+template <typename U>
+Matrix<T>& Matrix<T>::operator+=(U x)
+{
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
+            elem_[i][j] += x;
+
+    return *this;
+}
+
+template <typename T>
+template <typename U>
+Matrix<T>& Matrix<T>::operator-=(U x)
+{
+    for (std::size_t i = 0; i < MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < MAT_SIZE; ++j)
+            elem_[i][j] -= x;
 
     return *this;
 }
