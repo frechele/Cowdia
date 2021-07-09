@@ -35,10 +35,10 @@ class Matrix final
     Matrix<T>& operator=(Matrix<T>&&) = default;
 
     //! Returns zero matrix
-    static Matrix<T> zero() const;
+    static Matrix<T> zero();
 
     //! Returns indentity matrix
-    static Matrix<T> identity() const;
+    static Matrix<T> identity();
 
     //! Returns element at \p idx.
     //! \param idx the index of element.
