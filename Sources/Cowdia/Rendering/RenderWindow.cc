@@ -13,9 +13,14 @@ void RenderWindow::Fullscreen(bool fullscreen)
     fullscreen_ = fullscreen;
 }
 
-Types::Recti RenderWindow::GetSize() const
+int RenderWindow::GetWidth() const
 {
-    return Types::Recti(width_, height_);
+    return width_;
+}
+
+int RenderWindow::GetHeight() const
+{
+    return height_;
 }
 
 bool RenderWindow::IsFullscreen() const

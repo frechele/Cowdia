@@ -37,8 +37,11 @@ class COWDIA_API RenderWindow
     //! \param fullscreen whether make window fullscreen or not.
     virtual void Fullscreen(bool fullscreen);
 
-    //! Returns window size.
-    [[nodiscard]] Types::Recti GetSize() const;
+    //! Returns window width.
+    [[nodiscard]] int GetWidth() const;
+
+    //! Returns window height.
+    [[nodiscard]] int GetHeight() const;
 
     //! Returns whether window is full or not.
     [[nodiscard]] bool IsFullscreen() const;
