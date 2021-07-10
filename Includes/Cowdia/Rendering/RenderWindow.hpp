@@ -17,9 +17,8 @@ class COWDIA_API RenderWindow
     //! Create window.
     //! \param width window width.
     //! \param height window height.
-    //! \param fullscreen whether make window fullscreen or not.
     //! \return true if success to create.
-    [[nodiscard]] virtual bool Create(int width, int height, bool fullscreen) = 0;
+    [[nodiscard]] virtual bool Create(int width, int height) = 0;
 
     //! Destroy window.
     virtual void Destroy() = 0;

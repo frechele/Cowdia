@@ -31,11 +31,12 @@ void Setup()
     renderSystem->Initialize();
 
     const auto window = renderSystem->GetRenderWindow();
-    if (!window->Create(680, 480, false))
+    if (!window->Create(680, 480))
     {
         std::cerr << "Cannot create render window." << std::endl;
         std::exit(1);
     }
+    window->Fullscreen(true);
 
     window->SetTitle("TestApplication");
 }
