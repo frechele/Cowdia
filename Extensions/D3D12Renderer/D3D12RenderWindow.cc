@@ -113,6 +113,11 @@ void D3D12RenderWindow::Fullscreen(bool fullscreen)
     }
 }
 
+HWND D3D12RenderWindow::GetHWND() const
+{
+    return hwnd_;
+}
+
 LRESULT D3D12RenderWindow::MsgProc(HWND hwnd, UINT msg, WPARAM wParam,
                                    LPARAM lParam)
 {

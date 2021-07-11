@@ -23,6 +23,8 @@ class COWDIA_D3D12_API D3D12RenderWindow final : public RenderWindow
 
     void Fullscreen(bool fullscreen) override;
 
+    HWND GetHWND() const;
+
  private:
     static LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
