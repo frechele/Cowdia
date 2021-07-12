@@ -29,6 +29,8 @@ class COWDIA_D3D12_API D3D12Renderer final : public Renderer
 
     void resetViewportAndScissor();
 
+    void flushCommandQueue();
+
  private:
     D3D12RenderSystem* renderSystem_;
 

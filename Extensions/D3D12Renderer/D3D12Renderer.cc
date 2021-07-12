@@ -97,6 +97,8 @@ void D3D12Renderer::Initialize()
 
 void D3D12Renderer::Shutdown()
 {
+    flushCommandQueue();
+
     depthStencilBuffer_.Reset();
 
     for (auto& buffer : swapChainBuffer_)
@@ -296,5 +298,29 @@ void D3D12Renderer::resetViewportAndScissor()
 
     scissorRect_ = { 0, 0, clientWidth / 2, clientHeight / 2 };
     cmdList_->RSSetScissorRects(1, &scissorRect_);
+}
+
+void D3D12Renderer::flushCommandQueue()
+{
+    ++currentFence_;
+
+    if (FAILED(cmdQueue_->Signal(fence_.Get(), currentFence_)))
+    {
+        throw std::runtime_error("Signal");
+    }
+
+    if (fence_->GetCompletedValue() < currentFence_)
+    {
+        HANDLE eventHandle =
+            CreateEventEx(nullptr, false, false, EVENT_ALL_ACCESS);
+
+        if (FAILED(fence_->SetEventOnCompletion(currentFence_, eventHandle)))
+        {
+            throw std::runtime_error("SetEventOnCompletion");
+        }
+
+        WaitForSingleObject(eventHandle, INFINITE);
+        CloseHandle(eventHandle);
+    }
 }
 }  // namespace Cowdia::Rendering
