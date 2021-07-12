@@ -1,8 +1,8 @@
-#include<string>
-#include<iostream>
-#include<vector>
-#include<fstream>
-#include<stdlib.h>
+#include <stdlib.h>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
 
 using namespace std;
 typedef struct
@@ -20,17 +20,11 @@ typedef struct
 
 class Mesh
 {
-private:
-    std::vector<vec3> vertices;
-    std::vector<vec2> uvs;
-    std::vector<vec3> normals;
-
-
-
-public:
+ public:
     Mesh()
     {
     }
+
     explicit Mesh(std::string path)
     {
         std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
@@ -38,44 +32,45 @@ public:
         std::vector<vec2> temp_uvs;
         std::vector<vec3> temp_normals;
         std::ifstream readFile;
+
         readFile.open(path);
         if (readFile.fail())
         {
             printf("failure to open the file !\n");
-            return ;
+            return;
         }
 
         while (!readFile.eof())
         {
             std::string lineHeader;
             readFile >> lineHeader;
-            if (lineHeader.compare("v")==0)
+            if (lineHeader.compare("v") == 0)
             {
                 vec3 tmp_ver;
                 readFile >> tmp_ver.x >> tmp_ver.y >> tmp_ver.z;
                 temp_vertices.push_back(tmp_ver);
             }
-            else if(lineHeader.compare("vt")==0)
+            else if (lineHeader.compare("vt") == 0)
             {
                 vec2 tmp_uv;
-                readFile>>tmp_uv.x>>tmp_uv.y;
+                readFile >> tmp_uv.x >> tmp_uv.y;
                 temp_uvs.push_back(tmp_uv);
             }
-            else if(lineHeader.compare("vn")==0)
+            else if (lineHeader.compare("vn") == 0)
             {
                 vec3 tmp_normal;
-                readFile>>tmp_normal.x>>tmp_normal.y>>tmp_normal.z;
+                readFile >> tmp_normal.x >> tmp_normal.y >> tmp_normal.z;
                 temp_normals.push_back(tmp_normal);
             }
-            else if(lineHeader.compare("f")==0)
+            else if (lineHeader.compare("f") == 0)
             {
                 std::string vertex[3];
-                readFile>>vertex[0]>>vertex[1]>>vertex[2];
+                readFile >> vertex[0] >> vertex[1] >> vertex[2];
 
-                for(int i = 0; i<3; i++)
+                for (int i = 0; i < 3; i++)
                 {
-                    int current=vertex[i].find('/');
-                    if(current == string::npos)
+                    int current = vertex[i].find('/');
+                    if (current == string::npos)
                     {
                         vertexIndices.push_back(std::stoi(vertex[i]));
                         uvIndices.push_back(0);
@@ -84,30 +79,37 @@ public:
                     else
                     {
                         int previous = 0;
-                        vertexIndices.push_back(std::stoi(vertex[i].substr(previous,current-previous)));
-                        previous = current+1;
+                        vertexIndices.push_back(std::stoi(
+                            vertex[i].substr(previous, current - previous)));
+                        previous = current + 1;
                         current = vertex[i].find('/');
-                        uvIndices.push_back(std::stoi(vertex[i].substr(previous,current-previous)));
-                        previous = current+1;
+                        uvIndices.push_back(std::stoi(
+                            vertex[i].substr(previous, current - previous)));
+                        previous = current + 1;
                         current = vertex[i].find('/');
-                        normalIndices.push_back(std::stoi(vertex[i].substr(previous,current-previous)));
+                        normalIndices.push_back(std::stoi(
+                            vertex[i].substr(previous, current - previous)));
                     }
                 }
             }
         }
-        for(int i = 0; i<vertexIndices.size();i++)
+
+        for (int i = 0; i < vertexIndices.size(); i++)
         {
-            vertices.push_back(temp_vertices[vertexIndices[i]-1]);
+            vertices.push_back(temp_vertices[vertexIndices[i] - 1]);
         }
-        for(int i = 0; i<uvIndices.size();i++)
+
+        for (int i = 0; i < uvIndices.size(); i++)
         {
-            uvs.push_back(temp_uvs[uvIndices[i]-1]);
+            uvs.push_back(temp_uvs[uvIndices[i] - 1]);
         }
-        for(int i = 0; i<normalIndices.size();i++)
+
+        for (int i = 0; i < normalIndices.size(); i++)
         {
-            normals.push_back(temp_normals[normalIndices[i]-1]);
+            normals.push_back(temp_normals[normalIndices[i] - 1]);
         }
     }
+
     ~Mesh()
     {
         vertices.clear();
@@ -117,6 +119,11 @@ public:
         normals.clear();
         std::vector<vec3>().swap(normals);
     }
+
+ private:
+    std::vector<vec3> vertices;
+    std::vector<vec2> uvs;
+    std::vector<vec3> normals;
 };
 
 int main()
