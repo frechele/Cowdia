@@ -31,7 +31,7 @@ public:
     Mesh()
     {
     }
-    Mesh(char* path)
+    Mesh(std::string path)
     {
         std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
         std::vector<vec3> temp_vertices;
@@ -71,9 +71,10 @@ public:
             {
                 std::string vertex[3];
                 readFile>>vertex[0]>>vertex[1]>>vertex[2];
+                int previous;
                 for(int i = 0; i<3; i++)
                 {
-                    int previous;
+                    previous = 0;
                     int current=vertex[i].find('/');
                     if(current == string::npos)
                     {
