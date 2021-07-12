@@ -28,6 +28,9 @@ private:
 
 
 public:
+    Mesh()
+    {
+    }
     Mesh(char* path)
     {
         std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
@@ -70,7 +73,7 @@ public:
                 readFile>>vertex[0]>>vertex[1]>>vertex[2];
                 for(int i = 0; i<3; i++)
                 {
-                    int previous = 0;
+                    int previous;
                     int current=vertex[i].find('/');
                     if(current == string::npos)
                     {
@@ -89,7 +92,6 @@ public:
                         normalIndices.push_back(std::stoi(vertex[i].substr(previous,current-previous)));
                     }
                 }
-
             }
         }
         for(int i = 0; i<vertexIndices.size();i++)
@@ -114,7 +116,6 @@ public:
         normals.clear();
         std::vector<vec3>().swap(normals);
     }
-
 };
 
 int main()
