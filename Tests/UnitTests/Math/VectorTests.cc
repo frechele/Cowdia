@@ -21,6 +21,14 @@ TEST_CASE("[Math/Vector2] - Basic Arithmetic Operators")
     CHECK_EQ(BminusA.At(0), 2);
     CHECK_EQ(BminusA.At(1), 2);
 
+    Math::Vector2i Aplus2 = A + 2;
+    CHECK_EQ(Aplus2.At(0), 3);
+    CHECK_EQ(Aplus2.At(1), 4);
+
+    Math::Vector2i Aminus2 = A - 2;
+    CHECK_EQ(Aminus2.At(0), -1);
+    CHECK_EQ(Aminus2.At(1), 0);
+
     Math::Vector2i Amul = A * 3;
     CHECK_EQ(Amul.At(0), 3);
     CHECK_EQ(Amul.At(1), 6);

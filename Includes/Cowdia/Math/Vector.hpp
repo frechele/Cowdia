@@ -6,7 +6,7 @@
 
 namespace Cowdia::Math
 {
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 class VectorBase
 {
  public:
@@ -51,6 +51,10 @@ class VectorBase
     template <typename U>
     VectorBase<T, DIM> operator-(const VectorBase<U, DIM>& other) const;
     template <typename U>
+    VectorBase<T, DIM> operator+(U value) const;
+    template <typename U>
+    VectorBase<T, DIM> operator-(U value) const;
+    template <typename U>
     VectorBase<T, DIM> operator*(U value) const;
     template <typename U>
     VectorBase<T, DIM> operator/(U value) const;
@@ -59,6 +63,10 @@ class VectorBase
     VectorBase<T, DIM>& operator+=(const VectorBase<U, DIM>& other);
     template <typename U>
     VectorBase<T, DIM>& operator-=(const VectorBase<U, DIM>& other);
+    template <typename U>
+    VectorBase<T, DIM>& operator+=(U value);
+    template <typename U>
+    VectorBase<T, DIM>& operator-=(U value);
     template <typename U>
     VectorBase<T, DIM>& operator*=(U value);
     template <typename U>
@@ -71,129 +79,175 @@ class VectorBase
 using Vector2i = VectorBase<int, 2>;
 using Vector2f = VectorBase<float, 2>;
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 template <typename... Args>
 VectorBase<T, DIM>::VectorBase(Args... args) : elem_{ args... }
 {
     // Do nothing.
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 std::size_t VectorBase<T, DIM>::Dim() const
 {
     return DIM;
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 float VectorBase<T, DIM>::Length() const
 {
     float sum = 0;
 
-    for (int i = 0; i < DIM; ++i)
+    for (std::size_t i = 0; i < DIM; ++i)
         sum += elem_[i] * elem_[i];
 
     return std::sqrt(sum);
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 T VectorBase<T, DIM>::At(std::size_t idx) const
 {
     return elem_[idx];
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 T& VectorBase<T, DIM>::At(std::size_t idx)
 {
     return elem_[idx];
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 template <typename U>
 VectorBase<T, DIM> VectorBase<T, DIM>::operator+(
     const VectorBase<U, DIM>& other) const
 {
     VectorBase<T, DIM> ret{ *this };
 
-    for (int i = 0; i < DIM; ++i)
+    for (std::size_t i = 0; i < DIM; ++i)
         ret.elem_[i] += other.elem_[i];
 
     return ret;
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 template <typename U>
 VectorBase<T, DIM> VectorBase<T, DIM>::operator-(
     const VectorBase<U, DIM>& other) const
 {
     VectorBase<T, DIM> ret{ *this };
 
-    for (int i = 0; i < DIM; ++i)
+    for (std::size_t i = 0; i < DIM; ++i)
         ret.elem_[i] -= other.elem_[i];
 
     return ret;
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
+template <typename U>
+VectorBase<T, DIM> VectorBase<T, DIM>::operator+(U x) const
+{
+    VectorBase<T, DIM> ret{ *this };
+
+    for (std::size_t i = 0; i < DIM; ++i)
+        ret.elem_[i] += x;
+
+    return ret;
+}
+
+template <typename T, std::size_t DIM>
+template <typename U>
+VectorBase<T, DIM> VectorBase<T, DIM>::operator-(U x) const
+{
+    VectorBase<T, DIM> ret{ *this };
+
+    for (std::size_t i = 0; i < DIM; ++i)
+        ret.elem_[i] -= x;
+
+    return ret;
+}
+
+template <typename T, std::size_t DIM>
 template <typename U>
 VectorBase<T, DIM> VectorBase<T, DIM>::operator*(U x) const
 {
     VectorBase<T, DIM> ret{ *this };
 
-    for (int i = 0; i < DIM; ++i)
+    for (std::size_t i = 0; i < DIM; ++i)
         ret.elem_[i] *= x;
 
     return ret;
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 template <typename U>
 VectorBase<T, DIM> VectorBase<T, DIM>::operator/(U x) const
 {
     VectorBase<T, DIM> ret{ *this };
 
-    for (int i = 0; i < DIM; ++i)
+    for (std::size_t i = 0; i < DIM; ++i)
         ret.elem_[i] /= x;
 
     return ret;
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 template <typename U>
 VectorBase<T, DIM>& VectorBase<T, DIM>::operator+=(
     const VectorBase<U, DIM>& other)
 {
-    for (int i = 0; i < DIM; ++i)
+    for (std::size_t i = 0; i < DIM; ++i)
         elem_[i] += other.elem_[i];
 
     return *this;
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 template <typename U>
 VectorBase<T, DIM>& VectorBase<T, DIM>::operator-=(
     const VectorBase<U, DIM>& other)
 {
-    for (int i = 0; i < DIM; ++i)
+    for (std::size_t i = 0; i < DIM; ++i)
         elem_[i] -= other.elem_[i];
 
     return *this;
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
+template <typename U>
+VectorBase<T, DIM>& VectorBase<T, DIM>::operator+=(U x)
+{
+    for (std::size_t i = 0; i < DIM; ++i)
+        elem_[i] += x;
+
+    return *this;
+}
+
+template <typename T, std::size_t DIM>
+template <typename U>
+VectorBase<T, DIM>& VectorBase<T, DIM>::operator-=(U x)
+{
+    VectorBase<T, DIM> ret{ *this };
+
+    for (std::size_t i = 0; i < DIM; ++i)
+        ret.elem_[i] -= x;
+
+    return *this;
+}
+
+template <typename T, std::size_t DIM>
 template <typename U>
 VectorBase<T, DIM>& VectorBase<T, DIM>::operator*=(U x)
 {
-    for (int i = 0; i < DIM; ++i)
+    for (std::size_t i = 0; i < DIM; ++i)
         elem_[i] *= x;
 
     return *this;
 }
 
-template <typename T, int DIM>
+template <typename T, std::size_t DIM>
 template <typename U>
 VectorBase<T, DIM>& VectorBase<T, DIM>::operator/=(U x)
 {
-    for (int i = 0; i < DIM; ++i)
+    for (std::size_t i = 0; i < DIM; ++i)
         elem_[i] /= x;
 
     return *this;
