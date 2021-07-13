@@ -2,6 +2,7 @@
 #define COWDIA_ENGINE_HPP
 
 #include <Cowdia/Core/Common.hpp>
+#include <Cowdia/Core/LogManager.hpp>
 #include <Cowdia/Core/PluginManager.hpp>
 #include <Cowdia/Rendering/RenderSystem.hpp>
 #include <Cowdia/Utils/Singleton.hpp>
@@ -47,6 +48,7 @@ class COWDIA_API Engine final : public Utils::Singleton<Engine>
     bool isRunning_{ false };
 
     // Managers
+    LogManager logMgr_;
     PluginManager pluginMgr_;
 
     Rendering::RenderSystem* curRenderSystem_{ nullptr };
