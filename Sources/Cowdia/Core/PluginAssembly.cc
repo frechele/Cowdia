@@ -1,5 +1,7 @@
 #include <Cowdia/Core/PluginAssembly.hpp>
 
+#include <Cowdia/Core/LogManager.hpp>
+
 #include <cassert>
 #include <stdexcept>
 
@@ -29,16 +31,22 @@ Cowdia::Core::PluginProc LoadPluginProc(Cowdia::Core::PluginHandle handle, const
 #else
 Cowdia::Core::PluginHandle LoadDynamicLibrary([[maybe_unused]] const std::string& name)
 {
+    LOG().Logging(LogLevel::ERR, "Not supported platform (LoadDynamicLibrary)");
+
     return nullptr;
 }
 
 int UnloadDynamicLibrary([[maybe_unused]] Cowdia::Core::PluginHandle handle)
 {
+    LOG().Logging(LogLevel::ERR, "Not supported platform (UnloadDynamicLibrary)");
+
     return -1;
 }
 
 Cowdia::Core::PluginProc LoadPluginProc([[maybe_unused]] Cowdia::Core::PluginHandle handle, [[maybe_unused]] const std::string& procName)
 {
+    LOG().Logging(LogLevel::ERR, "Not supported platform (LoadPluginProc)");
+
     return nullptr;
 }
 #endif
