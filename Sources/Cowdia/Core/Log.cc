@@ -47,7 +47,12 @@ std::string Log::ToString() const
 {
     std::stringstream ss;
 
-    ss << "[" << std::ctime(&time_) << "] (" << LogLevelStr(level_) << ") "
+    std::tm* now = std::localtime(&time_);
+
+    ss << "[" << (now->tm_year + 1900) << "-" << (now->tm_mon + 1) << "-"
+       << (now->tm_mday) << " " << (now->tm_hour) << ":" << (now->tm_min) << ":"
+       << (now->tm_sec)
+       << "] (" << LogLevelStr(level_) << ") "
        << msg_;
 
     return ss.str();
