@@ -23,29 +23,37 @@ int UnloadDynamicLibrary(Cowdia::Core::PluginHandle handle)
     return FreeLibrary(reinterpret_cast<HINSTANCE>(handle));
 }
 
-Cowdia::Core::PluginProc LoadPluginProc(Cowdia::Core::PluginHandle handle, const std::string& procName)
+Cowdia::Core::PluginProc LoadPluginProc(Cowdia::Core::PluginHandle handle,
+                                        const std::string& procName)
 {
     return reinterpret_cast<Cowdia::Core::PluginProc>(
         GetProcAddress(reinterpret_cast<HINSTANCE>(handle), procName.c_str()));
 }
 #else
-Cowdia::Core::PluginHandle LoadDynamicLibrary([[maybe_unused]] const std::string& name)
+Cowdia::Core::PluginHandle LoadDynamicLibrary(
+    [[maybe_unused]] const std::string& name)
 {
-    LOG().Logging(LogLevel::ERR, "Not supported platform (LoadDynamicLibrary)");
+    Cowdia::Core::LOG().Logging(Cowdia::Core::LogLevel::ERR,
+                                "Not supported platform (LoadDynamicLibrary)");
 
     return nullptr;
 }
 
 int UnloadDynamicLibrary([[maybe_unused]] Cowdia::Core::PluginHandle handle)
 {
-    LOG().Logging(LogLevel::ERR, "Not supported platform (UnloadDynamicLibrary)");
+    Cowdia::Core::LOG().Logging(
+        Cowdia::Core::LogLevel::ERR,
+        "Not supported platform (UnloadDynamicLibrary)");
 
     return -1;
 }
 
-Cowdia::Core::PluginProc LoadPluginProc([[maybe_unused]] Cowdia::Core::PluginHandle handle, [[maybe_unused]] const std::string& procName)
+Cowdia::Core::PluginProc LoadPluginProc(
+    [[maybe_unused]] Cowdia::Core::PluginHandle handle,
+    [[maybe_unused]] const std::string& procName)
 {
-    LOG().Logging(LogLevel::ERR, "Not supported platform (LoadPluginProc)");
+    Cowdia::Core::LOG().Logging(Cowdia::Core::LogLevel::ERR,
+                                "Not supported platform (LoadPluginProc)");
 
     return nullptr;
 }
