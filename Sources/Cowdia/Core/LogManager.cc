@@ -25,7 +25,7 @@ struct StderrLogHandler final : public LogHandler
 
 struct FileLogHandler final : public LogHandler
 {
-    FileLogHandler(const std::string& path)
+    explicit FileLogHandler(const std::string& path)
     {
         file_.open(path, std::ios_base::app);
     }
