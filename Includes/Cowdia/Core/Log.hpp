@@ -25,13 +25,13 @@ class COWDIA_API Log final
     Log(LogLevel level, std::string msg);
 
     //! Returns the level of log.
-    LogLevel GetLevel() const;
+    [[nodiscard]] LogLevel GetLevel() const;
 
     //! Returns the message of log.
-    const std::string& GetMessage() const;
+    [[nodiscard]] const std::string& GetMessage() const;
 
     //! Returns formatted log message.
-    std::string ToString() const;
+    [[nodiscard]] std::string ToString() const;
 
  private:
     LogLevel level_{ LogLevel::DEBUG };
