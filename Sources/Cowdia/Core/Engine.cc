@@ -9,11 +9,17 @@ void Engine::RegisterRenderSystem(Rendering::RenderSystem* renderSystem)
     assert(renderSystem_.find(renderSystem->GetName()) == end(renderSystem_));
 
     renderSystem_.emplace(renderSystem->GetName(), renderSystem);
+
+    LOG().Logging(LogLevel::INFO, "RenderSystem " + renderSystem->GetName() +
+                                      " was registered");
 }
 
 void Engine::UnregisterRenderSystem(Rendering::RenderSystem* renderSystem)
 {
     renderSystem_.erase(renderSystem->GetName());
+
+    LOG().Logging(LogLevel::INFO, "RenderSystem " + renderSystem->GetName() +
+                                      " was unregistered");
 }
 
 Rendering::RenderSystem* Engine::GetRenderSystemByName(
@@ -29,6 +35,9 @@ Rendering::RenderSystem* Engine::GetRenderSystemByName(
 void Engine::SetRenderSystem(Rendering::RenderSystem* renderSystem)
 {
     curRenderSystem_ = renderSystem;
+
+    LOG().Logging(LogLevel::INFO,
+                  "RenderSystem is changed to " + renderSystem->GetName());
 }
 
 Rendering::RenderSystem* Engine::GetRenderSystem() const
@@ -42,6 +51,8 @@ void Engine::Run()
 
     isRunning_ = true;
 
+    LOG().Logging(LogLevel::INFO, "Engine starts to run");
+
     while (isRunning_)
     {
         if (!curRenderSystem_->PollEvents())
@@ -49,6 +60,8 @@ void Engine::Run()
             // Rendering.
         }
     }
+
+    LOG().Logging(LogLevel::INFO, "Engine stopped");
 }
 
 void Engine::Stop()
