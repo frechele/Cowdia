@@ -39,8 +39,12 @@ std::string Exception::What() const
 {
     std::stringstream ss;
 
-    ss << "[" << name_ << "] " << message_ << " (" << source_ << ":" << line_
-       << ")";
+    ss << "[" << name_ << "] " << message_;
+    
+    if (line_ > 0)
+    {
+        ss << " (" << source_ << ":" << line_ << ")";
+    }
 
     return ss.str();
 }
