@@ -27,18 +27,18 @@ class COWDIA_API Exception
     virtual ~Exception() noexcept = default;
 
     //! Returns exception name.
-    const std::string& GetName() const;
+    [[nodiscard]] const std::string& GetName() const;
 
     //! Returns exception message.
-    const std::string& GetMessage() const;
+    [[nodiscard]] const std::string& GetMessage() const;
 
     //! Returns source where the exception is thrown.
-    const std::string& GetSource() const;
+    [[nodiscard]] const std::string& GetSource() const;
 
     //! Returns line number where the exception is thrown.
-    std::uint64_t GetLine() const;
+    [[nodiscard]] std::uint64_t GetLine() const;
 
-    std::string What() const;
+    [[nodiscard]] std::string What() const;
 
  private:
     std::string name_;
@@ -47,7 +47,7 @@ class COWDIA_API Exception
     std::uint64_t line_;
 };
 
-struct COWDIA_API UnImplementedException : public Exception
+struct COWDIA_API UnImplementedException final : public Exception
 {
     UnImplementedException();
     UnImplementedException(std::string source, std::uint64_t line);
