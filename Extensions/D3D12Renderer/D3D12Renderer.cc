@@ -1,5 +1,6 @@
 #include "D3D12Renderer.hpp"
 
+#include "D3D12Exception.hpp"
 #include "D3D12RenderWindow.hpp"
 
 #include <stdexcept>
@@ -16,12 +17,9 @@ D3D12Renderer::D3D12Renderer(D3D12RenderSystem* renderSystem)
 void D3D12Renderer::Initialize()
 {
     // 0. Create DXGI factory.
-    if (FAILED(CreateDXGIFactory1(
-            __uuidof(IDXGIFactory4),
-            reinterpret_cast<void**>(dxgiFactory_.GetAddressOf()))))
-    {
-        throw std::runtime_error("CreateDXGIFactory1");
-    }
+    THROW_IF_FAILED(CreateDXGIFactory1(
+        __uuidof(IDXGIFactory4),
+        reinterpret_cast<void**>(dxgiFactory_.GetAddressOf())));
 
     // 1. Create D3D12 device;
     if (FAILED(D3D12CreateDevice(
@@ -29,29 +27,19 @@ void D3D12Renderer::Initialize()
             reinterpret_cast<void**>(device_.GetAddressOf()))))
     {
         Utils::ComPtr<IDXGIAdapter> warpAdapter;
-        if (FAILED(dxgiFactory_->EnumWarpAdapter(
-                __uuidof(IDXGIAdapter),
-                reinterpret_cast<void**>(warpAdapter.GetAddressOf()))))
-        {
-            throw std::runtime_error("EnumWarpAdapter");
-        }
+        THROW_IF_FAILED(dxgiFactory_->EnumWarpAdapter(
+            __uuidof(IDXGIAdapter),
+            reinterpret_cast<void**>(warpAdapter.GetAddressOf())));
 
-        if (FAILED(D3D12CreateDevice(
-                warpAdapter.Get(), D3D_FEATURE_LEVEL_12_0,
-                __uuidof(ID3D12Device),
-                reinterpret_cast<void**>(device_.GetAddressOf()))))
-        {
-            throw std::runtime_error("D3D12CreateDevice");
-        }
+        THROW_IF_FAILED(D3D12CreateDevice(
+            warpAdapter.Get(), D3D_FEATURE_LEVEL_12_0, __uuidof(ID3D12Device),
+            reinterpret_cast<void**>(device_.GetAddressOf())));
     }
 
     // 2. Create fence.
-    if (FAILED(device_->CreateFence(
-            0, D3D12_FENCE_FLAG_NONE, __uuidof(ID3D12Fence),
-            reinterpret_cast<void**>(fence_.GetAddressOf()))))
-    {
-        throw std::runtime_error("CreateFence");
-    }
+    THROW_IF_FAILED(
+        device_->CreateFence(0, D3D12_FENCE_FLAG_NONE, __uuidof(ID3D12Fence),
+                             reinterpret_cast<void**>(fence_.GetAddressOf())));
 
     rtvDescriptorSize_ = device_->GetDescriptorHandleIncrementSize(
         D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
@@ -66,17 +54,15 @@ void D3D12Renderer::Initialize()
     msQualityLevels.SampleCount = 4;
     msQualityLevels.Flags = D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE;
     msQualityLevels.NumQualityLevels = 0;
-    if (FAILED(device_->CheckFeatureSupport(
-            D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS, &msQualityLevels,
-            sizeof(msQualityLevels))))
-    {
-        throw std::runtime_error("CheckFeatureSupport");
-    }
+    THROW_IF_FAILED(device_->CheckFeatureSupport(
+        D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS, &msQualityLevels,
+        sizeof(msQualityLevels)));
 
     m4xMsaaQuality_ = msQualityLevels.NumQualityLevels;
     if (m4xMsaaQuality_ <= 0)
     {
-        throw std::runtime_error("Unexpected MSAA quality level");
+        throw Core::D3D12Exception("Unexpected MSAA quality level", __FILE__,
+                                   __LINE__);
     }
 
     // 4. Create command queue
@@ -125,27 +111,18 @@ void D3D12Renderer::createCommandObjects()
     cmdQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
     cmdQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
 
-    if (FAILED(device_->CreateCommandQueue(
-            &cmdQueueDesc, __uuidof(ID3D12CommandQueue),
-            reinterpret_cast<void**>(cmdQueue_.GetAddressOf()))))
-    {
-        throw std::runtime_error("CreateCommandQeueue");
-    }
+    THROW_IF_FAILED(device_->CreateCommandQueue(
+        &cmdQueueDesc, __uuidof(ID3D12CommandQueue),
+        reinterpret_cast<void**>(cmdQueue_.GetAddressOf())));
 
-    if (FAILED(device_->CreateCommandAllocator(
-            D3D12_COMMAND_LIST_TYPE_DIRECT, __uuidof(ID3D12CommandAllocator),
-            reinterpret_cast<void**>(directCmdListAlloc_.GetAddressOf()))))
-    {
-        throw std::runtime_error("CreateCommandAllocator");
-    }
+    THROW_IF_FAILED(device_->CreateCommandAllocator(
+        D3D12_COMMAND_LIST_TYPE_DIRECT, __uuidof(ID3D12CommandAllocator),
+        reinterpret_cast<void**>(directCmdListAlloc_.GetAddressOf())));
 
-    if (FAILED(device_->CreateCommandList(
-            0, D3D12_COMMAND_LIST_TYPE_DIRECT, directCmdListAlloc_.Get(),
-            nullptr, __uuidof(ID3D12GraphicsCommandList),
-            reinterpret_cast<void**>(cmdList_.GetAddressOf()))))
-    {
-        throw std::runtime_error("CreateCommandList");
-    }
+    THROW_IF_FAILED(device_->CreateCommandList(
+        0, D3D12_COMMAND_LIST_TYPE_DIRECT, directCmdListAlloc_.Get(), nullptr,
+        __uuidof(ID3D12GraphicsCommandList),
+        reinterpret_cast<void**>(cmdList_.GetAddressOf())));
 
     cmdList_->Close();
 }
@@ -175,11 +152,8 @@ void D3D12Renderer::createSwapChain()
     swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
     swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
-    if (FAILED(dxgiFactory_->CreateSwapChain(cmdQueue_.Get(), &swapChainDesc,
-                                             swapChain_.GetAddressOf())))
-    {
-        throw std::runtime_error("CreateSwapChain");
-    }
+    THROW_IF_FAILED(dxgiFactory_->CreateSwapChain(
+        cmdQueue_.Get(), &swapChainDesc, swapChain_.GetAddressOf()));
 }
 
 void D3D12Renderer::createDescriptorHeaps()
@@ -190,23 +164,17 @@ void D3D12Renderer::createDescriptorHeaps()
     rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
     rtvHeapDesc.NodeMask = 0;
 
-    if (FAILED(device_->CreateDescriptorHeap(
-            &rtvHeapDesc, __uuidof(ID3D12DescriptorHeap),
-            reinterpret_cast<void**>(rtvHeap_.GetAddressOf()))))
-    {
-        throw std::runtime_error("CreateDescriptorHeap of RTV");
-    }
+    THROW_IF_FAILED(device_->CreateDescriptorHeap(
+        &rtvHeapDesc, __uuidof(ID3D12DescriptorHeap),
+        reinterpret_cast<void**>(rtvHeap_.GetAddressOf())));
 
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapHandle =
         rtvHeap_->GetCPUDescriptorHandleForHeapStart();
     for (std::uint32_t i = 0; i < SwapChainBufferCount; ++i)
     {
-        if (FAILED(swapChain_->GetBuffer(
-                i, __uuidof(ID3D12Resource),
-                reinterpret_cast<void**>(swapChainBuffer_[i].GetAddressOf()))))
-        {
-            throw std::runtime_error("GetBuffer");
-        }
+        THROW_IF_FAILED(swapChain_->GetBuffer(
+            i, __uuidof(ID3D12Resource),
+            reinterpret_cast<void**>(swapChainBuffer_[i].GetAddressOf())));
 
         device_->CreateRenderTargetView(swapChainBuffer_[i].Get(), nullptr,
                                         rtvHeapHandle);
@@ -219,12 +187,9 @@ void D3D12Renderer::createDescriptorHeaps()
     dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
     dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
     dsvHeapDesc.NodeMask = 0;
-    if (FAILED(device_->CreateDescriptorHeap(
-            &dsvHeapDesc, __uuidof(ID3D12DescriptorHeap),
-            reinterpret_cast<void**>(dsvHeap_.GetAddressOf()))))
-    {
-        throw std::runtime_error("CreateDescriptorHeap of DSV");
-    }
+    THROW_IF_FAILED(device_->CreateDescriptorHeap(
+        &dsvHeapDesc, __uuidof(ID3D12DescriptorHeap),
+        reinterpret_cast<void**>(dsvHeap_.GetAddressOf())));
 }
 
 void D3D12Renderer::createDepthStencilBuffer()
@@ -257,16 +222,14 @@ void D3D12Renderer::createDepthStencilBuffer()
     heapProperty.CreationNodeMask = 1;
     heapProperty.VisibleNodeMask = 1;
 
-    if (FAILED(device_->CreateCommittedResource(
-            &heapProperty, D3D12_HEAP_FLAG_NONE, &depthStencilDesc,
-            D3D12_RESOURCE_STATE_COMMON, &optClear, __uuidof(ID3D12Resource),
-            reinterpret_cast<void**>(depthStencilBuffer_.GetAddressOf()))))
-    {
-        throw std::runtime_error("CreateCommittedResource");
-    }
+    THROW_IF_FAILED(device_->CreateCommittedResource(
+        &heapProperty, D3D12_HEAP_FLAG_NONE, &depthStencilDesc,
+        D3D12_RESOURCE_STATE_COMMON, &optClear, __uuidof(ID3D12Resource),
+        reinterpret_cast<void**>(depthStencilBuffer_.GetAddressOf())));
 
-    device_->CreateDepthStencilView(depthStencilBuffer_.Get(), nullptr,
-                                    dsvHeap_->GetCPUDescriptorHandleForHeapStart());
+    device_->CreateDepthStencilView(
+        depthStencilBuffer_.Get(), nullptr,
+        dsvHeap_->GetCPUDescriptorHandleForHeapStart());
 
     D3D12_RESOURCE_BARRIER rscBarrier;
     memset(&rscBarrier, 0, sizeof(rscBarrier));
@@ -314,10 +277,8 @@ void D3D12Renderer::flushCommandQueue()
         HANDLE eventHandle =
             CreateEventEx(nullptr, false, false, EVENT_ALL_ACCESS);
 
-        if (FAILED(fence_->SetEventOnCompletion(currentFence_, eventHandle)))
-        {
-            throw std::runtime_error("SetEventOnCompletion");
-        }
+        THROW_IF_FAILED(
+            fence_->SetEventOnCompletion(currentFence_, eventHandle));
 
         WaitForSingleObject(eventHandle, INFINITE);
         CloseHandle(eventHandle);
