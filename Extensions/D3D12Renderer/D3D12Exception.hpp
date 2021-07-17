@@ -12,10 +12,10 @@ struct COWDIA_D3D12_API D3D12Exception final : public Exception
     D3D12Exception(std::string message, std::string source,
                    std::uint64_t line);
 
-    D3D12Exception(long hr, std::string message, std::string source,
+    D3D12Exception(std::uint64_t hr, const std::string& message, std::string source,
                    std::uint64_t line);
 
-    static std::string HRESULTStr(long hr);
+    static std::string HRESULTStr(std::uint64_t hr);
 };
 }  // namespace Cowdia::Core
 
