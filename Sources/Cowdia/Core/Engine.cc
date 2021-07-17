@@ -55,9 +55,13 @@ void Engine::Run()
 
     while (isRunning_)
     {
-        if (!curRenderSystem_->PollEvents())
+        const auto renderer = curRenderSystem_->GetRenderer();
+
+        if (!curRenderSystem_->PollEvents() && renderer->IsInitialized())
         {
-            // Rendering.
+            renderer->BeginFrame(Types::Color(255, 0, 0));
+
+            renderer->EndFrame();
         }
     }
 
