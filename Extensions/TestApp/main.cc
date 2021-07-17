@@ -22,6 +22,8 @@ int main()
 
 void Setup()
 {
+    LOG().AddStandardOutput();
+
     PluginManager::Get().Load("D3D12Renderer");
     
     const auto renderSystem =
