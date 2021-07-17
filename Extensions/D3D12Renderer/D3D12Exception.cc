@@ -1,6 +1,7 @@
 #include "D3D12Exception.hpp"
 
 #include <iomanip>
+#include <sstream>
 
 namespace Cowdia::Core
 {
@@ -21,10 +22,10 @@ D3D12Exception::D3D12Exception(std::string message, std::string source,
 
 std::string D3D12Exception::HRESULTStr(std::uint64_t hr)
 {
-    char str[128];
+    std::stringstream ss;
 
-    std::sprintf(str, "0x%08llx", hr);
+    ss << "0x" << std::setfill('0') << std::setw(8) << std::hex << hr;
 
-    return std::string(str);
+    return ss.str();
 }
 }  // namespace Cowdia::Core
