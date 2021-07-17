@@ -2,6 +2,14 @@
 
 namespace Cowdia::Rendering
 {
+bool RenderWindow::Create(int width, int height)
+{
+    width_ = width;
+    height_ = height;
+
+    return true;
+}
+
 void RenderWindow::Resize(int width, int height)
 {
     width_ = width;

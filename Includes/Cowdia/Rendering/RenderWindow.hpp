@@ -18,7 +18,7 @@ class COWDIA_API RenderWindow
     //! \param width window width.
     //! \param height window height.
     //! \return true if success to create.
-    [[nodiscard]] virtual bool Create(int width, int height) = 0;
+    [[nodiscard]] virtual bool Create(int width, int height);
 
     //! Destroy window.
     virtual void Destroy() = 0;

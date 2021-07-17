@@ -50,7 +50,7 @@ bool D3D12RenderWindow::Create(int width, int height)
     ShowWindow(hwnd_, SW_SHOW);
     UpdateWindow(hwnd_);
 
-    return true;
+    return RenderWindow::Create(width, height);
 }
 
 void D3D12RenderWindow::Destroy()
