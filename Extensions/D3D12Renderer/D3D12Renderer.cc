@@ -79,11 +79,15 @@ void D3D12Renderer::Initialize()
 
     // 8. Create viewport and scissor.
     resetViewportAndScissor();
+
+    initialized_ = true;
 }
 
 void D3D12Renderer::Shutdown()
 {
     flushCommandQueue();
+
+    initialized_ = false;
 
     depthStencilBuffer_.Reset();
 
@@ -102,6 +106,70 @@ void D3D12Renderer::Shutdown()
     device_.Reset();
     swapChain_.Reset();
     dxgiFactory_.Reset();
+}
+
+bool D3D12Renderer::IsInitialized() const
+{
+    return initialized_;
+}
+
+void D3D12Renderer::BeginFrame(Types::Color color)
+{
+    THROW_IF_FAILED(directCmdListAlloc_->Reset());
+    THROW_IF_FAILED(cmdList_->Reset(directCmdListAlloc_.Get(), nullptr));
+
+    D3D12_RESOURCE_BARRIER barrier;
+    memset(&barrier, 0, sizeof(barrier));
+    barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+    barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+    barrier.Transition.pResource = swapChainBuffer_[currentBackBuffer].Get();
+    barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+    barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+    cmdList_->ResourceBarrier(1, &barrier);
+
+    cmdList_->RSSetViewports(1, &screenViewport_);
+    cmdList_->RSSetScissorRects(1, &scissorRect_);
+
+    const float clearColor[] = { color.GetR() / 255.f, color.GetG() / 255.f,
+                                 color.GetB() / 255.f, color.GetA() / 255.f };
+    cmdList_->ClearRenderTargetView(getCurrentBackBufferView(), clearColor, 0,
+                                    nullptr);
+    cmdList_->ClearDepthStencilView(
+        dsvHeap_->GetCPUDescriptorHandleForHeapStart(),
+        D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
+
+    const D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = getCurrentBackBufferView();
+    const D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle =
+        dsvHeap_->GetCPUDescriptorHandleForHeapStart();
+
+    cmdList_->OMSetRenderTargets(1, &rtvHandle, true, &dsvHandle);
+
+    cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+}
+
+void D3D12Renderer::EndFrame()
+{
+    D3D12_RESOURCE_BARRIER barrier;
+    memset(&barrier, 0, sizeof(barrier));
+    barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+    barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+    barrier.Transition.pResource = swapChainBuffer_[currentBackBuffer].Get();
+    barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+    barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+    cmdList_->ResourceBarrier(1, &barrier);
+
+    THROW_IF_FAILED(cmdList_->Close());
+
+    ID3D12CommandList* cmdLists[] = { cmdList_.Get() };
+    cmdQueue_->ExecuteCommandLists(_countof(cmdLists), cmdLists);
+
+    THROW_IF_FAILED(swapChain_->Present(0, 0));
+    currentBackBuffer = (currentBackBuffer + 1) % SwapChainBufferCount;
+
+    // TODO: remove this.
+    flushCommandQueue();
 }
 
 void D3D12Renderer::createCommandObjects()
@@ -143,7 +211,7 @@ void D3D12Renderer::createSwapChain()
     swapChainDesc.BufferDesc.ScanlineOrdering =
         DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
     swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-    swapChainDesc.SampleDesc.Count = 4;
+    swapChainDesc.SampleDesc.Count = 1;
     swapChainDesc.SampleDesc.Quality = m4xMsaaQuality_ - 1;
     swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     swapChainDesc.BufferCount = SwapChainBufferCount;
@@ -205,7 +273,7 @@ void D3D12Renderer::createDepthStencilBuffer()
     depthStencilDesc.DepthOrArraySize = 1;
     depthStencilDesc.MipLevels = 1;
     depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-    depthStencilDesc.SampleDesc.Count = 4;
+    depthStencilDesc.SampleDesc.Count = 1;
     depthStencilDesc.SampleDesc.Quality = m4xMsaaQuality_ - 1;
     depthStencilDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
     depthStencilDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
@@ -257,20 +325,14 @@ void D3D12Renderer::resetViewportAndScissor()
     screenViewport_.MinDepth = 0;
     screenViewport_.MaxDepth = 1;
 
-    cmdList_->RSSetViewports(1, &screenViewport_);
-
     scissorRect_ = { 0, 0, clientWidth / 2, clientHeight / 2 };
-    cmdList_->RSSetScissorRects(1, &scissorRect_);
 }
 
 void D3D12Renderer::flushCommandQueue()
 {
     ++currentFence_;
 
-    if (FAILED(cmdQueue_->Signal(fence_.Get(), currentFence_)))
-    {
-        throw std::runtime_error("Signal");
-    }
+    THROW_IF_FAILED(cmdQueue_->Signal(fence_.Get(), currentFence_));
 
     if (fence_->GetCompletedValue() < currentFence_)
     {
@@ -283,5 +345,16 @@ void D3D12Renderer::flushCommandQueue()
         WaitForSingleObject(eventHandle, INFINITE);
         CloseHandle(eventHandle);
     }
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE D3D12Renderer::getCurrentBackBufferView() const
+{
+    D3D12_CPU_DESCRIPTOR_HANDLE handle;
+
+    handle.ptr =
+        static_cast<SIZE_T>(rtvHeap_->GetCPUDescriptorHandleForHeapStart().ptr +
+                            currentBackBuffer * rtvDescriptorSize_);
+
+    return handle;
 }
 }  // namespace Cowdia::Rendering

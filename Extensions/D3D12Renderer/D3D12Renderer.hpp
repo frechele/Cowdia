@@ -7,10 +7,10 @@
 #include <Cowdia/Utils/ComPtr.hpp>
 #include "D3D12RenderSystem.hpp"
 
-#include <cstdint>
+#include <d3d12.h>
 #include <dxgi.h>
 #include <dxgi1_4.h>
-#include <d3d12.h>
+#include <cstdint>
 
 namespace Cowdia::Rendering
 {
@@ -22,6 +22,11 @@ class COWDIA_D3D12_API D3D12Renderer final : public Renderer
     void Initialize() override;
     void Shutdown() override;
 
+    bool IsInitialized() const override;
+
+    void BeginFrame(Types::Color color) override;
+    void EndFrame() override;
+
  private:
     void createCommandObjects();
     void createSwapChain();
@@ -32,7 +37,10 @@ class COWDIA_D3D12_API D3D12Renderer final : public Renderer
 
     void flushCommandQueue();
 
+    D3D12_CPU_DESCRIPTOR_HANDLE getCurrentBackBufferView() const;
+
  private:
+    bool initialized_{ false };
     D3D12RenderSystem* renderSystem_;
 
     Utils::ComPtr<IDXGIFactory4> dxgiFactory_;
