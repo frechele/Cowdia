@@ -63,4 +63,9 @@ void LogManager::Logging(LogLevel level, const std::string& msg)
     for (auto& handler : handlers_)
         handler->Logging(log);
 }
+
+void LogManager::Logging(const Exception& e)
+{
+    Logging(LogLevel::ERR, e.What());
+}
 }  // namespace Cowdia::Core
