@@ -11,7 +11,7 @@ class ComPtr final
     ComPtr() = default;
 
     //! Constructor with a pointer.
-    ComPtr(T* ptr) : ptr_(ptr)
+    explicit ComPtr(T* ptr) : ptr_(ptr)
     {
         addRef();
     }

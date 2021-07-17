@@ -17,7 +17,7 @@ namespace Cowdia::Rendering
 class COWDIA_D3D12_API D3D12Renderer final : public Renderer
 {
  public:
-    D3D12Renderer(D3D12RenderSystem* renderSystem);
+    explicit D3D12Renderer(D3D12RenderSystem* renderSystem);
 
     void Initialize() override;
     void Shutdown() override;
