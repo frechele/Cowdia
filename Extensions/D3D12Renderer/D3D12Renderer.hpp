@@ -4,6 +4,7 @@
 #include "D3D12Common.hpp"
 
 #include <Cowdia/Rendering/Renderer.hpp>
+#include <Cowdia/Utils/ComPtr.hpp>
 #include "D3D12RenderSystem.hpp"
 
 #include <cstdint>
@@ -34,24 +35,24 @@ class COWDIA_D3D12_API D3D12Renderer final : public Renderer
  private:
     D3D12RenderSystem* renderSystem_;
 
-    Core::ComPtr<IDXGIFactory4> dxgiFactory_;
-    Core::ComPtr<IDXGISwapChain> swapChain_;
-    Core::ComPtr<ID3D12Device> device_;
+    Utils::ComPtr<IDXGIFactory4> dxgiFactory_;
+    Utils::ComPtr<IDXGISwapChain> swapChain_;
+    Utils::ComPtr<ID3D12Device> device_;
 
-    Core::ComPtr<ID3D12Fence> fence_;
+    Utils::ComPtr<ID3D12Fence> fence_;
     std::uint64_t currentFence_{ 0 };
 
-    Core::ComPtr<ID3D12CommandQueue> cmdQueue_;
-    Core::ComPtr<ID3D12CommandAllocator> directCmdListAlloc_;
-    Core::ComPtr<ID3D12GraphicsCommandList> cmdList_;
+    Utils::ComPtr<ID3D12CommandQueue> cmdQueue_;
+    Utils::ComPtr<ID3D12CommandAllocator> directCmdListAlloc_;
+    Utils::ComPtr<ID3D12GraphicsCommandList> cmdList_;
 
     static constexpr int SwapChainBufferCount = 2;
     int currentBackBuffer{ 0 };
-    Core::ComPtr<ID3D12Resource> swapChainBuffer_[SwapChainBufferCount];
-    Core::ComPtr<ID3D12Resource> depthStencilBuffer_;
+    Utils::ComPtr<ID3D12Resource> swapChainBuffer_[SwapChainBufferCount];
+    Utils::ComPtr<ID3D12Resource> depthStencilBuffer_;
 
-    Core::ComPtr<ID3D12DescriptorHeap> rtvHeap_;
-    Core::ComPtr<ID3D12DescriptorHeap> dsvHeap_;
+    Utils::ComPtr<ID3D12DescriptorHeap> rtvHeap_;
+    Utils::ComPtr<ID3D12DescriptorHeap> dsvHeap_;
 
     std::uint32_t m4xMsaaQuality_{ 0 };
     D3D12_VIEWPORT screenViewport_;

@@ -28,7 +28,7 @@ void D3D12Renderer::Initialize()
             nullptr, D3D_FEATURE_LEVEL_12_0, __uuidof(ID3D12Device),
             reinterpret_cast<void**>(device_.GetAddressOf()))))
     {
-        Core::ComPtr<IDXGIAdapter> warpAdapter;
+        Utils::ComPtr<IDXGIAdapter> warpAdapter;
         if (FAILED(dxgiFactory_->EnumWarpAdapter(
                 __uuidof(IDXGIAdapter),
                 reinterpret_cast<void**>(warpAdapter.GetAddressOf()))))
