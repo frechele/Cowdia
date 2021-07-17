@@ -59,7 +59,7 @@ void D3D12Renderer::Initialize()
         sizeof(msQualityLevels)));
 
     m4xMsaaQuality_ = msQualityLevels.NumQualityLevels;
-    if (m4xMsaaQuality_ <= 0)
+    if (m4xMsaaQuality_ == 0)
     {
         throw Core::D3D12Exception("Unexpected MSAA quality level", __FILE__,
                                    __LINE__);
