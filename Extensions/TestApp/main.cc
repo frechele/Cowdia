@@ -48,6 +48,8 @@ class TestApp final : public Application
         const auto renderer = renderSystem->GetRenderer();
         renderer->Initialize();
 
+        SceneManager::Get().LoadScene("InvalidScene");
+
         SceneManager::Get().RegisterScene<TestScene>("TestScene");
         SceneManager::Get().LoadScene("TestScene");
     }

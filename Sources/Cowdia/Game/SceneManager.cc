@@ -17,7 +17,7 @@ void SceneManager::LoadScene(const std::string& name)
     auto it = scenes_.find(name);
     if (it == end(scenes_))
     {
-        Core::LOG(Core::LogLevel::WARNING, "cannot find scene named " + name);
+        Core::LOG(Core::LogLevel::WARNING, "Cannot find scene named " + name);
         return;
     }
 
