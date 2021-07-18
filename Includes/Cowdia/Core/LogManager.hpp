@@ -52,9 +52,14 @@ class COWDIA_API LogManager final : public Utils::Singleton<LogManager>
     std::vector<std::unique_ptr<LogHandler>> handlers_;
 };
 
-[[nodiscard]] inline LogManager& LOG()
+[[nodiscard]] inline void LOG(LogLevel level, const std::string& msg)
 {
-    return LogManager::Get();
+    LogManager::Get().Logging(level, msg);
+}
+
+[[nodiscard]] inline void LOG(const Exception& e)
+{
+    LogManager::Get().Logging(e);
 }
 
 template <class HandlerT, typename... Args>

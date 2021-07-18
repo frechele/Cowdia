@@ -23,14 +23,14 @@ int main()
     }
     catch (Exception& e)
     {
-        LOG().Logging(e);
+        LOG(e);
         throw;
     }
 }
 
 void Setup()
 {
-    LOG().AddStandardOutput();
+    LogManager::Get().AddStandardOutput();
 
     PluginManager::Get().Load("D3D12Renderer");
     

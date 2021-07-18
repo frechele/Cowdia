@@ -34,7 +34,7 @@ void PluginManager::Load(const std::string& name)
 
     plugin->GetProc("OnPluginLoad")();
 
-    LOG().Logging(LogLevel::INFO, "Plugin loaded " + name);
+    LOG(LogLevel::INFO, "Plugin loaded " + name);
 }
 
 void PluginManager::Unload(const std::string& name)
@@ -50,7 +50,7 @@ void PluginManager::Unload(const std::string& name)
 
     assemblies_.erase(it);
 
-    LOG().Logging(LogLevel::INFO, "Plugin unloaded " + name);
+    LOG(LogLevel::INFO, "Plugin unloaded " + name);
 }
 
 void PluginManager::Install(Plugin* plugin)
