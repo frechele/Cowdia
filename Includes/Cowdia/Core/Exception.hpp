@@ -53,6 +53,13 @@ struct COWDIA_API UnImplementedException final : public Exception
     UnImplementedException();
     UnImplementedException(std::string source, std::uint64_t line);
 };
+
+struct COWDIA_API RuntimeException final : public Exception
+{
+    RuntimeException(std::string message);
+    RuntimeException(std::string message, std::string source,
+                     std::uint64_t line);
+};
 }  // namespace Cowdia::Core
 
 #endif  // COWDIA_EXCEPTION_HPP

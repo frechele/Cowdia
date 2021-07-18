@@ -61,4 +61,16 @@ UnImplementedException::UnImplementedException(std::string source,
 {
     // Do nothing.
 }
+
+RuntimeException::RuntimeException(std::string message)
+    : RuntimeException(std::move(message), "", 0)
+{
+    // Do nothing.
+}
+
+RuntimeException::RuntimeException(std::string message, std::string source, std::uint64_t line)
+    : Exception("RuntimeException", std::move(message), std::move(source), line)
+{
+    // Do nothing.
+}
 }  // namespace Cowdia::Core
