@@ -53,12 +53,12 @@ class COWDIA_API Engine final : public Utils::Singleton<Engine>
     bool isDebug_{ false };
     bool isRunning_{ false };
 
+    Rendering::RenderSystem* curRenderSystem_{ nullptr };
+    std::unordered_map<std::string, Rendering::RenderSystem*> renderSystem_;
+
     // Managers
     LogManager logMgr_;
     PluginManager pluginMgr_;
-
-    Rendering::RenderSystem* curRenderSystem_{ nullptr };
-    std::unordered_map<std::string, Rendering::RenderSystem*> renderSystem_;
 };
 }  // namespace Cowdia::Core
 
