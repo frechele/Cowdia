@@ -10,7 +10,8 @@ void Engine::SetDebugMode(bool value)
 {
     if (isRunning_)
     {
-        throw RuntimeException("cannot set debug mode while engine is running.");
+        throw RuntimeException(
+            "cannot set debug mode while engine is running.");
     }
 
     isDebug_ = value;
@@ -46,7 +47,14 @@ Rendering::RenderSystem* Engine::GetRenderSystemByName(
 
 void Engine::SetRenderSystem(Rendering::RenderSystem* renderSystem)
 {
+    if (isRunning_)
+    {
+        throw RuntimeException(
+            "cannot change render system while engine is running.");
+    }
+
     curRenderSystem_ = renderSystem;
+    sceneMgr_.SetRenderSystem(renderSystem);
 
     LOG(LogLevel::INFO,
         "RenderSystem is changed to " + renderSystem->GetName());
@@ -68,15 +76,20 @@ void Engine::Run(Application& app)
             throw RuntimeException("render system not found");
         }
 
+        const auto renderer = curRenderSystem_->GetRenderer();
+
+        if (!renderer->IsInitialized())
+        {
+            throw RuntimeException("renderer is not initialized");
+        }
+
         isRunning_ = true;
 
         LOG(LogLevel::INFO, "Engine starts to run");
 
         while (isRunning_)
         {
-            const auto renderer = curRenderSystem_->GetRenderer();
-
-            if (!curRenderSystem_->PollEvents() && renderer->IsInitialized())
+            if (!curRenderSystem_->PollEvents())
             {
                 renderer->BeginFrame(Types::Color(255, 0, 0));
 
