@@ -35,33 +35,33 @@ class Matrix final
     Matrix<T>& operator=(Matrix<T>&&) = default;
 
     //! Returns zero matrix
-    static Matrix<T> Zero();
+    [[nodiscard]] static Matrix<T> Zero();
 
     //! Returns indentity matrix
-    static Matrix<T> Identity();
+    [[nodiscard]] static Matrix<T> Identity();
 
     //! Returns element at \p idx.
     //! \param idx the index of element.
-    T At(std::size_t y, std::size_t x) const;
+    [[nodiscard]] T At(std::size_t y, std::size_t x) const;
 
     //! Returns element at \p idx.
     //! \param idx the index of element.
-    T& At(std::size_t y, std::size_t x);
+    [[nodiscard]] T& At(std::size_t y, std::size_t x);
 
     template <typename U>
-    Matrix<T> operator+(const Matrix<U>& other) const;
+    [[nodiscard]] Matrix<T> operator+(const Matrix<U>& other) const;
     template <typename U>
-    Matrix<T> operator-(const Matrix<U>& other) const;
+    [[nodiscard]] Matrix<T> operator-(const Matrix<U>& other) const;
     template <typename U>
-    Matrix<T> operator*(const Matrix<U>& other) const;
+    [[nodiscard]] Matrix<T> operator*(const Matrix<U>& other) const;
     template <typename U>
-    Matrix<T> operator+(U value) const;
+    [[nodiscard]] Matrix<T> operator+(U value) const;
     template <typename U>
-    Matrix<T> operator-(U value) const;
+    [[nodiscard]] Matrix<T> operator-(U value) const;
     template <typename U>
-    Matrix<T> operator*(U value) const;
+    [[nodiscard]] Matrix<T> operator*(U value) const;
     template <typename U>
-    Matrix<T> operator/(U value) const;
+    [[nodiscard]] Matrix<T> operator/(U value) const;
 
     template <typename U>
     Matrix<T>& operator+=(const Matrix<U>& other);

@@ -6,10 +6,10 @@
 #include <Cowdia/Core/Log.hpp>
 #include <Cowdia/Utils/Singleton.hpp>
 
-#include <vector>
-#include <string>
-#include <mutex>
 #include <memory>
+#include <mutex>
+#include <string>
+#include <vector>
 
 namespace Cowdia::Core
 {
@@ -52,7 +52,7 @@ class COWDIA_API LogManager final : public Utils::Singleton<LogManager>
     std::vector<std::unique_ptr<LogHandler>> handlers_;
 };
 
-inline LogManager& LOG()
+[[nodiscard]] inline LogManager& LOG()
 {
     return LogManager::Get();
 }

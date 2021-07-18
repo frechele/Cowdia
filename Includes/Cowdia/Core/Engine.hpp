@@ -25,7 +25,7 @@ class COWDIA_API Engine final : public Utils::Singleton<Engine>
 
     //! Returns render system whose name is \p name.
     //! \param name name of the render system.
-    Rendering::RenderSystem* GetRenderSystemByName(
+    [[nodiscard]] Rendering::RenderSystem* GetRenderSystemByName(
         const std::string& name) const;
 
     //! Set render system.
@@ -33,7 +33,7 @@ class COWDIA_API Engine final : public Utils::Singleton<Engine>
     void SetRenderSystem(Rendering::RenderSystem* renderSystem);
 
     //! Returns current render system.
-    Rendering::RenderSystem* GetRenderSystem() const;
+    [[nodiscard]] Rendering::RenderSystem* GetRenderSystem() const;
 
     //! Run the engine.
     void Run();
@@ -42,7 +42,7 @@ class COWDIA_API Engine final : public Utils::Singleton<Engine>
     void Stop();
 
     //! Returns engine runnign status.
-    bool IsRunning() const;
+    [[nodiscard]] bool IsRunning() const;
 
  private:
     bool isRunning_{ false };

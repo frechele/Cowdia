@@ -21,7 +21,8 @@ class COWDIA_API Exception
     //! \param message The exception message.
     //! \param source The source where the exception is thrown.
     //! \param line The line number where the exception is thrown.
-    Exception(std::string name, std::string message, std::string source, std::uint64_t line);
+    Exception(std::string name, std::string message, std::string source,
+              std::uint64_t line);
 
     //! Default destructor.
     virtual ~Exception() noexcept = default;

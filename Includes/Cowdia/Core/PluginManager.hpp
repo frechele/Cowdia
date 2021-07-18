@@ -6,8 +6,8 @@
 #include <Cowdia/Core/PluginAssembly.hpp>
 #include <Cowdia/Utils/Singleton.hpp>
 
-#include <unordered_map>
 #include <set>
+#include <unordered_map>
 
 namespace Cowdia::Core
 {

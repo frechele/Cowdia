@@ -50,6 +50,6 @@ class COWDIA_API RenderWindow
     int height_{ 0 };
     bool fullscreen_{ false };
 };
-}
+}  // namespace Cowdia::Rendering
 
 #endif  // COWDIA_RENDER_WINDOW_HPP
