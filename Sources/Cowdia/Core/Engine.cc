@@ -91,9 +91,7 @@ void Engine::Run(Application& app)
         {
             if (!curRenderSystem_->PollEvents())
             {
-                renderer->BeginFrame(Types::Color(255, 0, 0));
-
-                renderer->EndFrame();
+                sceneMgr_.ProcessFrame();
             }
         }
 

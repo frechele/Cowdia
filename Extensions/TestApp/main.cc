@@ -1,10 +1,26 @@
 #include <Cowdia/Core/Application.hpp>
 #include <Cowdia/Core/Engine.hpp>
+#include <Cowdia/Game/Scene.hpp>
 
 #include <iostream>
 
 using namespace Cowdia;
 using namespace Cowdia::Core;
+using namespace Cowdia::Game;
+
+class TestScene final : public Scene
+{
+ public:
+    void OnLoad() override
+    {
+        ClearColor = Types::Color(0, 255, 255);
+    }
+
+    void OnUnload() override
+    {
+        // Do nothing.
+    }
+};
 
 class TestApp final : public Application
 {
@@ -31,6 +47,9 @@ class TestApp final : public Application
 
         const auto renderer = renderSystem->GetRenderer();
         renderer->Initialize();
+
+        SceneManager::Get().RegisterScene<TestScene>("TestScene");
+        SceneManager::Get().LoadScene("TestScene");
     }
 
     void OnShutdown() override

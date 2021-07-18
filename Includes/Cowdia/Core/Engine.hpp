@@ -5,6 +5,7 @@
 #include <Cowdia/Core/Common.hpp>
 #include <Cowdia/Core/LogManager.hpp>
 #include <Cowdia/Core/PluginManager.hpp>
+#include <Cowdia/Game/SceneManager.hpp>
 #include <Cowdia/Rendering/RenderSystem.hpp>
 #include <Cowdia/Utils/Singleton.hpp>
 
@@ -59,6 +60,7 @@ class COWDIA_API Engine final : public Utils::Singleton<Engine>
     // Managers
     LogManager logMgr_;
     PluginManager pluginMgr_;
+    Game::SceneManager sceneMgr_;
 };
 }  // namespace Cowdia::Core
 
