@@ -60,7 +60,7 @@ class TestApp final : public Application
     }
 
  private:
-    Rendering::RenderSystem* renderSystem;
+    Rendering::RenderSystem* renderSystem{ nullptr };
 };
 
 int main()
