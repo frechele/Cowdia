@@ -63,6 +63,11 @@ void Engine::Run(Application& app)
     {
         app.OnInitialize();
 
+        if (curRenderSystem_ == nullptr)
+        {
+            throw RuntimeException("render system not found");
+        }
+
         isRunning_ = true;
 
         LOG(LogLevel::INFO, "Engine starts to run");
