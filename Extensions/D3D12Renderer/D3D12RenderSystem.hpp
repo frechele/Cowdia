@@ -3,6 +3,7 @@
 
 #include "D3D12Common.hpp"
 
+#include <Cowdia/Rendering/Renderer.hpp>
 #include <Cowdia/Rendering/RenderSystem.hpp>
 #include <Cowdia/Rendering/RenderWindow.hpp>
 
@@ -18,12 +19,15 @@ class COWDIA_D3D12_API D3D12RenderSystem final : public RenderSystem
 
     [[nodiscard]] std::string GetName() const override;
 
+    [[nodiscard]] Renderer* GetRenderer() override;
+
     [[nodiscard]] RenderWindow* GetRenderWindow() override;
 
     [[nodiscard]] bool PollEvents() override;
 
  private:
     HINSTANCE hInstance_{ nullptr };
+    Renderer* renderer_{ nullptr };
     RenderWindow* renderWindow_{ nullptr };
 };
 }

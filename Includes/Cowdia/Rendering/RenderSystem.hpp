@@ -2,6 +2,7 @@
 #define COWDIA_RENDER_SYSTEM_HPP
 
 #include <Cowdia/Core/Common.hpp>
+#include <Cowdia/Rendering/Renderer.hpp>
 #include <Cowdia/Rendering/RenderWindow.hpp>
 
 #include <string>
@@ -22,6 +23,9 @@ class COWDIA_API RenderSystem
 
     //! Returns the name of render system.
     [[nodiscard]] virtual std::string GetName() const = 0;
+
+    //! Returns renderer.
+    [[nodiscard]] virtual Renderer* GetRenderer() = 0;
 
     //! Returns render window instance.
     [[nodiscard]] virtual RenderWindow* GetRenderWindow() = 0;

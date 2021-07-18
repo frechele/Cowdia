@@ -13,11 +13,19 @@ int main()
 {
     Engine engine;
 
-    Setup();
+    try
+    {
+        Setup();
 
-    engine.Run();
+        engine.Run();
 
-    Shutdown();
+        Shutdown();
+    }
+    catch (Exception& e)
+    {
+        LOG().Logging(e);
+        throw;
+    }
 }
 
 void Setup()
@@ -33,13 +41,16 @@ void Setup()
     renderSystem->Initialize();
 
     const auto window = renderSystem->GetRenderWindow();
-    if (!window->Create(680, 480, false))
+    if (!window->Create(680, 480))
     {
         std::cerr << "Cannot create render window." << std::endl;
         std::exit(1);
     }
 
     window->SetTitle("TestApplication");
+
+    const auto renderer = renderSystem->GetRenderer();
+    renderer->Initialize();
 }
 
 void Shutdown()

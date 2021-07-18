@@ -2,6 +2,14 @@
 
 namespace Cowdia::Rendering
 {
+bool RenderWindow::Create(int width, int height)
+{
+    width_ = width;
+    height_ = height;
+
+    return true;
+}
+
 void RenderWindow::Resize(int width, int height)
 {
     width_ = width;
@@ -13,9 +21,14 @@ void RenderWindow::Fullscreen(bool fullscreen)
     fullscreen_ = fullscreen;
 }
 
-Types::Recti RenderWindow::GetSize() const
+int RenderWindow::GetWidth() const
 {
-    return Types::Recti(width_, height_);
+    return width_;
+}
+
+int RenderWindow::GetHeight() const
+{
+    return height_;
 }
 
 bool RenderWindow::IsFullscreen() const

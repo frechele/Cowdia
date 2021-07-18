@@ -2,6 +2,7 @@
 #define COWDIA_LOG_MANAGER_HPP
 
 #include <Cowdia/Core/Common.hpp>
+#include <Cowdia/Core/Exception.hpp>
 #include <Cowdia/Core/Log.hpp>
 #include <Cowdia/Utils/Singleton.hpp>
 
@@ -42,6 +43,9 @@ class COWDIA_API LogManager final : public Utils::Singleton<LogManager>
 
     //! Add log
     void Logging(LogLevel level, const std::string& msg);
+
+    //! Add exception log
+    void Logging(const Exception& e);
 
  private:
     std::mutex mutex_;
