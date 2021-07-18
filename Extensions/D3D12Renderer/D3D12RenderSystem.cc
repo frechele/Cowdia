@@ -3,6 +3,8 @@
 #include "D3D12Renderer.hpp"
 #include "D3D12RenderWindow.hpp"
 
+#include <Cowdia/Core/Engine.hpp>
+
 namespace Cowdia::Rendering
 {
 void D3D12RenderSystem::Initialize()
@@ -50,6 +52,11 @@ bool D3D12RenderSystem::PollEvents()
     {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
+
+        if (msg.message == WM_QUIT)
+        {
+            Core::Engine::Get().Stop();
+        }
 
         return true;
     }

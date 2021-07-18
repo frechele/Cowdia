@@ -51,7 +51,9 @@ std::string Log::ToString() const
 #ifdef COWDIA_PLATFORM_WIN32
     now = std::localtime(&time_);
 #else
-    now = std::localtime(&time_);
+    std::tm nowImpl;
+    now = &nowImpl;
+    localtime_r(&time_, now);
 #endif
 
     ss << "[" << (now->tm_year + 1900) << "-" << (now->tm_mon + 1) << "-"

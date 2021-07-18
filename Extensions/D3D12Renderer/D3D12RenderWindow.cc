@@ -55,6 +55,9 @@ bool D3D12RenderWindow::Create(int width, int height)
 
 void D3D12RenderWindow::Destroy()
 {
+    if (hwnd_ == nullptr)
+        return;
+
     DestroyWindow(hwnd_);
     hwnd_ = nullptr;
 }
