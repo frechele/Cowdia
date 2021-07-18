@@ -7,7 +7,7 @@
 namespace Cowdia::Math
 {
 template <typename T, std::size_t DIM>
-class VectorBase
+class VectorBase final
 {
  public:
     //! Default constructor.
@@ -34,30 +34,32 @@ class VectorBase
 
     //! Returns element at \p idx.
     //! \param idx the index of element.
-    T At(std::size_t idx) const;
+    [[nodiscard]] T At(std::size_t idx) const;
 
     //! Returns element at \p idx.
     //! \param idx the index of element.
-    T& At(std::size_t idx);
+    [[nodiscard]] T& At(std::size_t idx);
 
     //! Returns the dimension of vector.
-    std::size_t Dim() const;
+    [[nodiscard]] std::size_t Dim() const;
 
     //! Returns the length of vector.
-    float Length() const;
+    [[nodiscard]] float Length() const;
 
     template <typename U>
-    VectorBase<T, DIM> operator+(const VectorBase<U, DIM>& other) const;
+    [[nodiscard]] VectorBase<T, DIM> operator+(
+        const VectorBase<U, DIM>& other) const;
     template <typename U>
-    VectorBase<T, DIM> operator-(const VectorBase<U, DIM>& other) const;
+    [[nodiscard]] VectorBase<T, DIM> operator-(
+        const VectorBase<U, DIM>& other) const;
     template <typename U>
-    VectorBase<T, DIM> operator+(U value) const;
+    [[nodiscard]] VectorBase<T, DIM> operator+(U value) const;
     template <typename U>
-    VectorBase<T, DIM> operator-(U value) const;
+    [[nodiscard]] VectorBase<T, DIM> operator-(U value) const;
     template <typename U>
-    VectorBase<T, DIM> operator*(U value) const;
+    [[nodiscard]] VectorBase<T, DIM> operator*(U value) const;
     template <typename U>
-    VectorBase<T, DIM> operator/(U value) const;
+    [[nodiscard]] VectorBase<T, DIM> operator/(U value) const;
 
     template <typename U>
     VectorBase<T, DIM>& operator+=(const VectorBase<U, DIM>& other);

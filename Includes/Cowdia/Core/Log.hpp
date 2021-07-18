@@ -38,6 +38,6 @@ class COWDIA_API Log final
     std::string msg_;
     std::time_t time_;
 };
-}
+}  // namespace Cowdia::Core
 
 #endif  // COWDIA_LOG_HPP

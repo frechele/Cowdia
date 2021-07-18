@@ -47,13 +47,16 @@ std::string Log::ToString() const
 {
     std::stringstream ss;
 
-    std::tm* now = std::localtime(&time_);
+    std::tm* now;
+#ifdef COWDIA_PLATFORM_WIN32
+    now = std::localtime(&time_);
+#else
+    now = std::localtime(&time_);
+#endif
 
     ss << "[" << (now->tm_year + 1900) << "-" << (now->tm_mon + 1) << "-"
        << (now->tm_mday) << " " << (now->tm_hour) << ":" << (now->tm_min) << ":"
-       << (now->tm_sec)
-       << "] (" << LogLevelStr(level_) << ") "
-       << msg_;
+       << (now->tm_sec) << "] (" << LogLevelStr(level_) << ") " << msg_;
 
     return ss.str();
 }

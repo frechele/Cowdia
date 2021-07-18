@@ -2,8 +2,8 @@
 #define COWDIA_RENDER_SYSTEM_HPP
 
 #include <Cowdia/Core/Common.hpp>
-#include <Cowdia/Rendering/Renderer.hpp>
 #include <Cowdia/Rendering/RenderWindow.hpp>
+#include <Cowdia/Rendering/Renderer.hpp>
 
 #include <string>
 

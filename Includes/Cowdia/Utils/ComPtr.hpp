@@ -63,22 +63,22 @@ class ComPtr final
         release();
     }
 
-    operator bool() const
+    [[nodiscard]] operator bool() const
     {
         return ptr_ != nullptr;
     }
 
-    T* Get() const
+    [[nodiscard]] T* Get() const
     {
         return ptr_;
     }
 
-    T** GetAddressOf()
+    [[nodiscard]] T** GetAddressOf()
     {
         return &ptr_;
     }
 
-    T** ReleaseAndGetAddressOf()
+    [[nodiscard]] T** ReleaseAndGetAddressOf()
     {
         release();
         return &ptr_;
@@ -100,17 +100,17 @@ class ComPtr final
         return tmp;
     }
 
-    T* operator->() const
+    [[nodiscard]] T* operator->() const
     {
         return ptr_;
     }
 
-    bool operator==(const ComPtr<T>& other) const
+    [[nodiscard]] bool operator==(const ComPtr<T>& other) const
     {
         return ptr_ == other.ptr_;
     }
 
-    bool operator!=(const ComPtr<T>& other) const
+    [[nodiscard]] bool operator!=(const ComPtr<T>& other) const
     {
         return !(*this == other);
     }

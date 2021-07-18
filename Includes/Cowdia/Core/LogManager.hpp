@@ -6,10 +6,10 @@
 #include <Cowdia/Core/Log.hpp>
 #include <Cowdia/Utils/Singleton.hpp>
 
-#include <vector>
-#include <string>
-#include <mutex>
 #include <memory>
+#include <mutex>
+#include <string>
+#include <vector>
 
 namespace Cowdia::Core
 {
@@ -52,9 +52,14 @@ class COWDIA_API LogManager final : public Utils::Singleton<LogManager>
     std::vector<std::unique_ptr<LogHandler>> handlers_;
 };
 
-inline LogManager& LOG()
+inline void LOG(LogLevel level, const std::string& msg)
 {
-    return LogManager::Get();
+    LogManager::Get().Logging(level, msg);
+}
+
+inline void LOG(const Exception& e)
+{
+    LogManager::Get().Logging(e);
 }
 
 template <class HandlerT, typename... Args>

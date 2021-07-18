@@ -32,7 +32,7 @@ class Singleton
     Singleton& operator=(Singleton&&) = delete;
 
     //! Returns instance.
-    static T& Get()
+    [[nodiscard]] static T& Get()
     {
         return *instance_;
     }

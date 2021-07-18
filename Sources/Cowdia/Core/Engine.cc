@@ -10,7 +10,7 @@ void Engine::RegisterRenderSystem(Rendering::RenderSystem* renderSystem)
 
     renderSystem_.emplace(renderSystem->GetName(), renderSystem);
 
-    LOG().Logging(LogLevel::INFO, "RenderSystem " + renderSystem->GetName() +
+    LOG(LogLevel::INFO, "RenderSystem " + renderSystem->GetName() +
                                       " was registered");
 }
 
@@ -18,7 +18,7 @@ void Engine::UnregisterRenderSystem(Rendering::RenderSystem* renderSystem)
 {
     renderSystem_.erase(renderSystem->GetName());
 
-    LOG().Logging(LogLevel::INFO, "RenderSystem " + renderSystem->GetName() +
+    LOG(LogLevel::INFO, "RenderSystem " + renderSystem->GetName() +
                                       " was unregistered");
 }
 
@@ -36,7 +36,7 @@ void Engine::SetRenderSystem(Rendering::RenderSystem* renderSystem)
 {
     curRenderSystem_ = renderSystem;
 
-    LOG().Logging(LogLevel::INFO,
+    LOG(LogLevel::INFO,
                   "RenderSystem is changed to " + renderSystem->GetName());
 }
 
@@ -51,7 +51,7 @@ void Engine::Run()
 
     isRunning_ = true;
 
-    LOG().Logging(LogLevel::INFO, "Engine starts to run");
+    LOG(LogLevel::INFO, "Engine starts to run");
 
     while (isRunning_)
     {
@@ -65,7 +65,7 @@ void Engine::Run()
         }
     }
 
-    LOG().Logging(LogLevel::INFO, "Engine stopped");
+    LOG(LogLevel::INFO, "Engine stopped");
 }
 
 void Engine::Stop()
