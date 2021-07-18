@@ -40,7 +40,6 @@ void SceneManager::UnloadScene()
     }
 
     currentScene_ = nullptr;
-
 }
 
 void SceneManager::ProcessFrame()
