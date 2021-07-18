@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <sstream>
+#include <time.h>
 
 namespace Cowdia::Core
 {
@@ -47,11 +48,12 @@ std::string Log::ToString() const
 {
     std::stringstream ss;
 
-    std::tm* now = std::localtime(&time_);
+    std::tm now;
+    localtime_s(&now, &time_);
 
-    ss << "[" << (now->tm_year + 1900) << "-" << (now->tm_mon + 1) << "-"
-       << (now->tm_mday) << " " << (now->tm_hour) << ":" << (now->tm_min) << ":"
-       << (now->tm_sec)
+    ss << "[" << (now.tm_year + 1900) << "-" << (now.tm_mon + 1) << "-"
+       << (now.tm_mday) << " " << (now.tm_hour) << ":" << (now.tm_min) << ":"
+       << (now.tm_sec)
        << "] (" << LogLevelStr(level_) << ") "
        << msg_;
 
