@@ -1,5 +1,6 @@
-#ifndef MESH_LOADER_HPP_INCLUDED
-#define MESH_LOADER_HPP_INCLUDED
+#ifndef COWDIA_MESH_LOADER_HPP
+#define COWDIA_MESH_LOADER_HPP
+
 struct vec3
 {
     float x;
@@ -17,16 +18,15 @@ namespace Cowdia::Mesh
 {
 class MeshLoader
 {
-private:
+ private:
     std::vector<vec3> vertices;
     std::vector<vec2> uvs;
     std::vector<vec3> normals;
 
-public:
+ public:
     MeshLoader();
-    explicit MeshLoader(std::string &path);
+    explicit MeshLoader(std::string& path);
 };
-}
+}  // namespace Cowdia::Mesh
 
-
-#endif // MESH_LOADER_HPP_INCLUDED
+#endif  // COWDIA_MESH_LOADER_HPP

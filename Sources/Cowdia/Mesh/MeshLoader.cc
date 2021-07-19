@@ -1,9 +1,10 @@
-#include<string>
-#include<iostream>
-#include<vector>
-#include<fstream>
-#include<stdlib.h>
-#include<Cowdia/Mesh/MeshLoader.hpp>
+#include <Cowdia/Mesh/MeshLoader.hpp>
+
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -11,9 +12,9 @@ namespace Cowdia::Mesh
 {
 MeshLoader::MeshLoader()
 {
-    //Do nothing
+    // Do nothing
 }
-MeshLoader::MeshLoader(std::string &path)
+MeshLoader::MeshLoader(std::string& path)
 {
     std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
     std::vector<vec3> tempVertices;
@@ -39,13 +40,13 @@ MeshLoader::MeshLoader(std::string &path)
         else if (lineHeader.compare("vt") == 0)
         {
             vec2 tmpUv;
-            readFile>>tmpUv.x>>tmpUv.y;
+            readFile >> tmpUv.x >> tmpUv.y;
             tempUvs.push_back(tmpUv);
         }
         else if (lineHeader.compare("vn") == 0)
         {
             vec3 tmpNormal;
-            readFile>>tmpNormal.x>>tmpNormal.y>>tmpNormal.z;
+            readFile >> tmpNormal.x >> tmpNormal.y >> tmpNormal.z;
             tempNormals.push_back(tmpNormal);
         }
         else if (lineHeader.compare("f") == 0)
@@ -55,8 +56,8 @@ MeshLoader::MeshLoader(std::string &path)
 
             for (int i = 0; i < 3; i++)
             {
-                unsigned int current=vertex[i].find('/');
-                if(current == string::npos)
+                unsigned int current = vertex[i].find('/');
+                if (current == string::npos)
                 {
                     vertexIndices.push_back(std::stoi(vertex[i]));
                     uvIndices.push_back(0);
@@ -65,13 +66,16 @@ MeshLoader::MeshLoader(std::string &path)
                 else
                 {
                     unsigned int previous = 0;
-                    vertexIndices.push_back(std::stoi(vertex[i].substr(previous,current-previous)));
-                    previous = current+1;
-                    current = vertex[i].find('/');
-                    uvIndices.push_back(std::stoi(vertex[i].substr(previous, current - previous)));
+                    vertexIndices.push_back(std::stoi(
+                        vertex[i].substr(previous, current - previous)));
                     previous = current + 1;
                     current = vertex[i].find('/');
-                    normalIndices.push_back(std::stoi(vertex[i].substr(previous, current - previous)));
+                    uvIndices.push_back(std::stoi(
+                        vertex[i].substr(previous, current - previous)));
+                    previous = current + 1;
+                    current = vertex[i].find('/');
+                    normalIndices.push_back(std::stoi(
+                        vertex[i].substr(previous, current - previous)));
                 }
             }
         }
@@ -79,21 +83,17 @@ MeshLoader::MeshLoader(std::string &path)
 
     for (int i = 0; i < vertexIndices.size(); i++)
     {
-        vertices.push_back(tempVertices[vertexIndices[i]-1]);
+        vertices.push_back(tempVertices[vertexIndices[i] - 1]);
     }
 
     for (int i = 0; i < uvIndices.size(); i++)
     {
-        uvs.push_back(tempUvs[uvIndices[i]-1]);
+        uvs.push_back(tempUvs[uvIndices[i] - 1]);
     }
 
     for (int i = 0; i < normalIndices.size(); i++)
     {
-        normals.push_back(tempNormals[normalIndices[i]-1]);
+        normals.push_back(tempNormals[normalIndices[i] - 1]);
     }
 }
-}
-
-
-
-
+}  // namespace Cowdia::Mesh
