@@ -13,7 +13,7 @@ MeshLoader::MeshLoader()
 {
     //Do nothing
 }
-MeshLoder::MeshLoader(std::string &path)
+MeshLoader::MeshLoader(std::string &path)
 {
     std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
     std::vector<vec3> tempVertices;
