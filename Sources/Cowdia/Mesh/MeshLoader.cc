@@ -92,7 +92,6 @@ MeshLoder::MeshLoader(std::string &path)
         normals.push_back(tempNormals[normalIndices[i]-1]);
     }
 }
-
 }
 
 
