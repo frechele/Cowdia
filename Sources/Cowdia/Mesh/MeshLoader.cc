@@ -3,40 +3,22 @@
 #include<vector>
 #include<fstream>
 #include<stdlib.h>
+#include<Cowdia/Mesh/MeshLoader.hpp>
 
 using namespace std;
-typedef struct
+
+namespace Cowdia::Mesh
 {
-    float x;
-    float y;
-    float z;
-} vec3;
-
-typedef struct
-{
-    float x;
-    float y;
-} vec2;
-
-class Mesh
-{
-private:
-    std::vector<vec3> vertices;
-    std::vector<vec2> uvs;
-    std::vector<vec3> normals;
-
-
-
-public:
-    Mesh()
+    MeshLoader::MeshLoader()
     {
+        //Do nothing
     }
-    explicit Mesh(std::string path)
+    MeshLoder::MeshLoader(std::string &path)
     {
         std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
-        std::vector<vec3> temp_vertices;
-        std::vector<vec2> temp_uvs;
-        std::vector<vec3> temp_normals;
+        std::vector<vec3> tempVertices;
+        std::vector<vec2> tempUvs;
+        std::vector<vec3> tempNormals;
         std::ifstream readFile;
         readFile.open(path);
         if (readFile.fail())
@@ -44,28 +26,27 @@ public:
             printf("failure to open the file !\n");
             return ;
         }
-
         while (!readFile.eof())
         {
             std::string lineHeader;
             readFile >> lineHeader;
             if (lineHeader.compare("v")==0)
             {
-                vec3 tmp_ver;
-                readFile >> tmp_ver.x >> tmp_ver.y >> tmp_ver.z;
-                temp_vertices.push_back(tmp_ver);
+                vec3 tmpVer;
+                readFile >> tmpVer.x >> tmpVer.y >> tmpVer.z;
+                tempVertices.push_back(tmpVer);
             }
             else if(lineHeader.compare("vt")==0)
             {
-                vec2 tmp_uv;
-                readFile>>tmp_uv.x>>tmp_uv.y;
-                temp_uvs.push_back(tmp_uv);
+                vec2 tmpUv;
+                readFile>>tmpUv.x>>tmpUv.y;
+                tempUvs.push_back(tmpUv);
             }
             else if(lineHeader.compare("vn")==0)
             {
-                vec3 tmp_normal;
-                readFile>>tmp_normal.x>>tmp_normal.y>>tmp_normal.z;
-                temp_normals.push_back(tmp_normal);
+                vec3 tmpNormal;
+                readFile>>tmpNormal.x>>tmpNormal.y>>tmpNormal.z;
+                tempNormals.push_back(tmpNormal);
             }
             else if(lineHeader.compare("f")==0)
             {
@@ -74,7 +55,7 @@ public:
 
                 for(int i = 0; i<3; i++)
                 {
-                    int current=vertex[i].find('/');
+                    unsigned int current=vertex[i].find('/');
                     if(current == string::npos)
                     {
                         vertexIndices.push_back(std::stoi(vertex[i]));
@@ -83,7 +64,7 @@ public:
                     }
                     else
                     {
-                        int previous = 0;
+                        unsigned int previous = 0;
                         vertexIndices.push_back(std::stoi(vertex[i].substr(previous,current-previous)));
                         previous = current+1;
                         current = vertex[i].find('/');
@@ -97,29 +78,16 @@ public:
         }
         for(int i = 0; i<vertexIndices.size();i++)
         {
-            vertices.push_back(temp_vertices[vertexIndices[i]-1]);
+            vertices.push_back(tempVertices[vertexIndices[i]-1]);
         }
         for(int i = 0; i<uvIndices.size();i++)
         {
-            uvs.push_back(temp_uvs[uvIndices[i]-1]);
+            uvs.push_back(tempUvs[uvIndices[i]-1]);
         }
         for(int i = 0; i<normalIndices.size();i++)
         {
-            normals.push_back(temp_normals[normalIndices[i]-1]);
+            normals.push_back(tempNormals[normalIndices[i]-1]);
         }
     }
-    ~Mesh()
-    {
-        vertices.clear();
-        std::vector<vec3>().swap(vertices);
-        uvs.clear();
-        std::vector<vec2>().swap(uvs);
-        normals.clear();
-        std::vector<vec3>().swap(normals);
-    }
-};
-
-int main()
-{
-    return 0;
 }
+
