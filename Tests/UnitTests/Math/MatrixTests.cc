@@ -6,104 +6,148 @@ using namespace Cowdia;
 
 TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
 {
-    Math::Matrixi A{
-        1,  2,  3,  4, 
-        5,  6,  7, 8,
-        9,  10, 11, 12, 
-        13, 14, 15, 16
-    };
+    constexpr float eps = 1e-5f;
 
-    Math::Matrixi B{
-        3,  4,  5,  6, 
-        7,  8,  9,  10, 
-        11, 12, 13, 14, 
-        15, 16, 17, 18
-    };
+    Math::Matrix A{ 1.0f, 2.0f,  3.0f,  4.0f,  5.0f,  6.0f,  7.0f,  8.0f,
+                    9.0f, 10.0f, 11.0f, 12.0f, 13.0f, 14.0f, 15.0f, 16.0f };
 
-    Math::Matrixi C{
-        1,  1,  1,  1, 
-        1,  1,  1,  1, 
-        1,  1,  1,  1, 
-        1,  1,  1,  1
-    };
+    Math::Matrix B{ 3.0f,  4.0f,  5.0f,  6.0f,  7.0f,  8.0f,  9.0f,  10.0f,
+                    11.0f, 12.0f, 13.0f, 14.0f, 15.0f, 16.0f, 17.0f, 18.0f };
 
-    Math::Matrixi D{ 
-        1,  1,  1,  1, 
-        1,  1,  1,  1, 
-        1,  1,  1,  1, 
-        1,  1,  1,  1 
-    };
+    Math::Matrix C{ 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+                    1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
 
-    for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
+    Math::Matrix D{ 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+                    1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
     {
-        for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
-            CHECK_EQ(A.At(i, j), i * 4 + j + 1);
-            CHECK_EQ(B.At(i, j), i * 4 + j + 3);
+            REQUIRE(A.At(i, j) ==
+                    doctest::Approx(static_cast<float>(i * 4 + j + 1))
+                        .epsilon(eps));
+            REQUIRE(B.At(i, j) ==
+                    doctest::Approx(static_cast<float>(i * 4 + j + 3))
+                        .epsilon(eps));
         }
     }
 
-    Math::Matrixi AplusB = A + B;
+    Math::Matrix AplusB = A + B;
 
-    for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
     {
-        for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
-            CHECK_EQ(AplusB.At(i, j), i * 8 + j * 2 + 4);
+            REQUIRE(AplusB.At(i, j) ==
+                    doctest::Approx(static_cast<float>(i * 8 + j * 2 + 4))
+                        .epsilon(eps));
         }
     }
 
-    Math::Matrixi BminusA = B - A;
-    for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
+    Math::Matrix BminusA = B - A;
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
     {
-        for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
-            CHECK_EQ(BminusA.At(i, j), 2);
+            REQUIRE(BminusA.At(i, j) == doctest::Approx(2).epsilon(eps));
         }
     }
 
-	Math::Matrixi CmulD = C * D;
-    for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
+    Math::Matrix CmulD = C * D;
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
     {
-        for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
-            CHECK_EQ(CmulD.At(i, j), 4);
+            REQUIRE(CmulD.At(i, j) == doctest::Approx(4).epsilon(eps));
         }
     }
 
-	Math::Matrixi Aplus2 = A + 2;
-    for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
+    Math::Matrix Aplus2 = A + 2;
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
     {
-        for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
-            CHECK_EQ(Aplus2.At(i, j), i * 4 + j + 3);
+            REQUIRE(Aplus2.At(i, j) ==
+                    doctest::Approx(static_cast<float>(i * 4 + j + 3))
+                        .epsilon(eps));
         }
     }
 
-	Math::Matrixi Aminus2 = A - 2;
-    for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
+    Math::Matrix Aminus2 = A - 2;
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
     {
-        for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
-            CHECK_EQ(Aminus2.At(i, j), i * 4 + j - 1);
+            REQUIRE(Aminus2.At(i, j) ==
+                    doctest::Approx(static_cast<float>(i * 4 + j - 1))
+                        .epsilon(eps));
         }
     }
 
-    Math::Matrixi Amul = A * 3;
-    for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
+    Math::Matrix Amul = A * 3;
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
     {
-        for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
-            CHECK_EQ(Amul.At(i, j), i * 12 + j * 3 + 3);
+            REQUIRE(Amul.At(i, j) ==
+                    doctest::Approx(static_cast<float>(i * 12 + j * 3 + 3))
+                        .epsilon(eps));
         }
     }
 
-    Math::Matrixi Adiv = A / 2;
-    for (std::size_t i = 0; i < Math::Matrix<int>::MAT_SIZE; ++i)
+    Math::Matrix Adiv = A / 2;
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
     {
-        for (std::size_t j = 0; j < Math::Matrix<int>::MAT_SIZE; ++j)
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
-            CHECK_EQ(Adiv.At(i, j), i * 2 + (j + 1) / 2);
+            REQUIRE(Adiv.At(i, j) ==
+                    doctest::Approx(static_cast<float>(i * 2 + (j + 1) / 2))
+                        .epsilon(eps));
+        }
+    }
+
+    Math::Matrix Atrans = A.T();
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
+    {
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
+        {
+            REQUIRE(Atrans.At(j, i) ==
+                    doctest::Approx(static_cast<float>(i * 4 + j + 1))
+                        .epsilon(eps));
+        }
+    }
+
+    Math::Matrix TwoplusA = 2 + A;
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
+    {
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
+        {
+            REQUIRE(TwoplusA.At(i, j) ==
+                    doctest::Approx(static_cast<float>(i * 4 + j + 3))
+                        .epsilon(eps));
+        }
+    }
+
+    Math::Matrix TwominusA = 2 - A;
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
+    {
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
+        {
+            REQUIRE(TwominusA.At(i, j) ==
+                    doctest::Approx(static_cast<float>(-static_cast<int>(i) * 4 - j + 1))
+                        .epsilon(eps));
+        }
+    }
+
+    Math::Matrix Threemul = A * 3;
+    for (std::size_t i = 0; i < Math::Matrix::MAT_SIZE; ++i)
+    {
+        for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
+        {
+            REQUIRE(Threemul.At(i, j) ==
+                    doctest::Approx(static_cast<float>(i * 12 + j * 3 + 3))
+                        .epsilon(eps));
         }
     }
 }

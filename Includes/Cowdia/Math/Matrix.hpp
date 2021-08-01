@@ -1,13 +1,14 @@
 #ifndef COWDIA_MATRIX_HPP
 #define COWDIA_MATRIX_HPP
 
+#include <Cowdia/Core/Common.hpp>
+
 #include <cmath>
 #include <cstddef>
 
 namespace Cowdia::Math
 {
-template <typename T>
-class Matrix final
+class COWDIA_API Matrix final
 {
  public:
     static constexpr std::size_t MAT_SIZE = 4;
@@ -23,269 +24,96 @@ class Matrix final
     explicit Matrix(Args... args);
 
     //! Default copy constructor.
-    Matrix(const Matrix<T>&) = default;
+    Matrix(const Matrix&) = default;
 
     //! Default move constructor.
-    Matrix(Matrix<T>&&) = default;
+    Matrix(Matrix&&) = default;
 
     //! Default copy assignment operator.
-    Matrix<T>& operator=(const Matrix<T>&) = default;
+    Matrix& operator=(const Matrix&) = default;
 
     //! Default move assignment operator.
-    Matrix<T>& operator=(Matrix<T>&&) = default;
+    Matrix& operator=(Matrix&&) = default;
 
     //! Returns zero matrix
-    [[nodiscard]] static Matrix<T> Zero();
+    [[nodiscard]] static Matrix Zero(void);
 
     //! Returns indentity matrix
-    [[nodiscard]] static Matrix<T> Identity();
+    [[nodiscard]] static Matrix Identity(void);
 
     //! Returns element at \p idx.
     //! \param idx the index of element.
-    [[nodiscard]] T At(std::size_t y, std::size_t x) const;
+    [[nodiscard]] float At(std::size_t y, std::size_t x) const;
 
     //! Returns element at \p idx.
     //! \param idx the index of element.
-    [[nodiscard]] T& At(std::size_t y, std::size_t x);
+    [[nodiscard]] float& At(std::size_t y, std::size_t x);
 
-    template <typename U>
-    [[nodiscard]] Matrix<T> operator+(const Matrix<U>& other) const;
-    template <typename U>
-    [[nodiscard]] Matrix<T> operator-(const Matrix<U>& other) const;
-    template <typename U>
-    [[nodiscard]] Matrix<T> operator*(const Matrix<U>& other) const;
-    template <typename U>
-    [[nodiscard]] Matrix<T> operator+(U value) const;
-    template <typename U>
-    [[nodiscard]] Matrix<T> operator-(U value) const;
-    template <typename U>
-    [[nodiscard]] Matrix<T> operator*(U value) const;
-    template <typename U>
-    [[nodiscard]] Matrix<T> operator/(U value) const;
+    [[nodiscard]] Matrix T() const;
 
-    template <typename U>
-    Matrix<T>& operator+=(const Matrix<U>& other);
-    template <typename U>
-    Matrix<T>& operator-=(const Matrix<U>& other);
-    template <typename U>
-    Matrix<T>& operator*=(const Matrix<U>& other);
-    template <typename U>
-    Matrix<T>& operator+=(U value);
-    template <typename U>
-    Matrix<T>& operator-=(U value);
-    template <typename U>
-    Matrix<T>& operator*=(U value);
-    template <typename U>
-    Matrix<T>& operator/=(U value);
+    [[nodiscard]] Matrix operator-() const;
+
+    [[nodiscard]] Matrix operator+(const Matrix& other) const;
+    [[nodiscard]] Matrix operator-(const Matrix& other) const;
+    [[nodiscard]] Matrix operator*(const Matrix& other) const;
+    [[nodiscard]] Matrix operator+(float value) const;
+    [[nodiscard]] Matrix operator-(float value) const;
+    [[nodiscard]] Matrix operator*(float value) const;
+    [[nodiscard]] Matrix operator/(float value) const;
+
+    [[nodiscard]] Matrix& operator+=(const Matrix& other);
+    [[nodiscard]] Matrix& operator-=(const Matrix& other);
+    [[nodiscard]] Matrix& operator*=(const Matrix& other);
+    [[nodiscard]] Matrix& operator+=(float value);
+    [[nodiscard]] Matrix& operator-=(float value);
+    [[nodiscard]] Matrix& operator*=(float value);
+    [[nodiscard]] Matrix& operator/=(float value);
+
+    friend Matrix operator+(float value, const Matrix& other);
+    friend Matrix operator-(float value, const Matrix& other);
+    friend Matrix operator*(float value, const Matrix& other);
 
  private:
-    T elem_[MAT_SIZE][MAT_SIZE];
+    float elem_[MAT_SIZE][MAT_SIZE];
 };
 
-using Matrixi = Matrix<int>;
-using Matrixf = Matrix<float>;
-
-template <typename T>
 template <typename... Args>
-Matrix<T>::Matrix(Args... args) : elem_{ args... }
+Matrix::Matrix(Args... args) : elem_{ args... }
 {
     // Do nothing.
 }
 
-template <typename T>
-Matrix<T> Matrix<T>::Zero()
+[[nodiscard]] inline Matrix operator+(float x, const Matrix& other)
 {
-    return Matrix<T>(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-}
+    Matrix ret{ other };
 
-template <typename T>
-Matrix<T> Matrix<T>::Identity()
-{
-    return Matrix<T>(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-}
-
-template <typename T>
-T Matrix<T>::At(std::size_t y, std::size_t x) const
-{
-    return elem_[y][x];
-}
-
-template <typename T>
-T& Matrix<T>::At(std::size_t y, std::size_t x)
-{
-    return elem_[y][x];
-}
-
-template <typename T>
-template <typename U>
-Matrix<T> Matrix<T>::operator+(const Matrix<U>& other) const
-{
-    Matrix<T> ret{ *this };
-
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            ret.elem_[i][j] += other.elem_[i][j];
-
-    return ret;
-}
-
-template <typename T>
-template <typename U>
-Matrix<T> Matrix<T>::operator-(const Matrix<U>& other) const
-{
-    Matrix<T> ret{ *this };
-
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            ret.elem_[i][j] -= other.elem_[i][j];
-
-    return ret;
-}
-
-template <typename T>
-template <typename U>
-Matrix<T> Matrix<T>::operator*(const Matrix<U>& other) const
-{
-    Matrix<T> ret = Zero();
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            for (std::size_t k = 0; k < MAT_SIZE; ++k)
-                ret.elem_[i][j] += elem_[i][k] * other.elem_[k][j];
-    return ret;
-}
-
-template <typename T>
-template <typename U>
-Matrix<T> Matrix<T>::operator+(U x) const
-{
-    Matrix<T> ret{ *this };
-
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
+    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
             ret.elem_[i][j] += x;
 
     return ret;
 }
 
-template <typename T>
-template <typename U>
-Matrix<T> Matrix<T>::operator-(U x) const
+[[nodiscard]] inline Matrix operator-(float x, const Matrix& other)
 {
-    Matrix<T> ret{ *this };
+    Matrix ret{ -other };
 
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            ret.elem_[i][j] -= x;
+    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
+            ret.elem_[i][j] += x;
 
     return ret;
 }
 
-template <typename T>
-template <typename U>
-Matrix<T> Matrix<T>::operator*(U x) const
+[[nodiscard]] inline Matrix operator*(float x, const Matrix& other)
 {
-    Matrix<T> ret{ *this };
+    Matrix ret{ other };
 
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
+    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
             ret.elem_[i][j] *= x;
 
     return ret;
-}
-
-template <typename T>
-template <typename U>
-Matrix<T> Matrix<T>::operator/(U x) const
-{
-    Matrix<T> ret{ *this };
-
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            ret.elem_[i][j] /= x;
-
-    return ret;
-}
-
-template <typename T>
-template <typename U>
-Matrix<T>& Matrix<T>::operator+=(const Matrix<U>& other)
-{
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            elem_[i][j] += other.elem_[i][j];
-
-    return *this;
-}
-
-template <typename T>
-template <typename U>
-Matrix<T>& Matrix<T>::operator-=(const Matrix<U>& other)
-{
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            elem_[i][j] -= other.elem_[i][j];
-
-    return *this;
-}
-
-template <typename T>
-template <typename U>
-Matrix<T>& Matrix<T>::operator*=(const Matrix<U>& other)
-{
-    Matrix<T> tmp = Zero();
-
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            for (std::size_t k = 0; k < MAT_SIZE; ++k)
-                tmp.elem_[i][j] += elem_[i][k] * other.elem_[k][j];
-
-    *this = tmp;
-
-    return *this;
-}
-
-template <typename T>
-template <typename U>
-Matrix<T>& Matrix<T>::operator+=(U x)
-{
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            elem_[i][j] += x;
-
-    return *this;
-}
-
-template <typename T>
-template <typename U>
-Matrix<T>& Matrix<T>::operator-=(U x)
-{
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            elem_[i][j] -= x;
-
-    return *this;
-}
-
-template <typename T>
-template <typename U>
-Matrix<T>& Matrix<T>::operator*=(U x)
-{
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            elem_[i][j] *= x;
-
-    return *this;
-}
-
-template <typename T>
-template <typename U>
-Matrix<T>& Matrix<T>::operator/=(U x)
-{
-    for (std::size_t i = 0; i < MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < MAT_SIZE; ++j)
-            elem_[i][j] /= x;
-
-    return *this;
 }
 }  // namespace Cowdia::Math
 
