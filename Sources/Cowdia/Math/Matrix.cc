@@ -199,39 +199,6 @@ Matrix operator+(float x, const Matrix& other)
     return ret;
 }
 
-Matrix operator+(double x, const Matrix& other)
-{
-    Matrix ret{ other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] += x;
-
-    return ret;
-}
-
-Matrix operator+(int x, const Matrix& other)
-{
-    Matrix ret{ other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] += x;
-
-    return ret;
-}
-
-Matrix operator+(long long x, const Matrix& other)
-{
-    Matrix ret{ other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] += x;
-
-    return ret;
-}
-
 Matrix operator-(float x, const Matrix& other)
 {
     Matrix ret{ -other };
@@ -243,73 +210,7 @@ Matrix operator-(float x, const Matrix& other)
     return ret;
 }
 
-Matrix operator-(double x, const Matrix& other)
-{
-    Matrix ret{ -other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] += x;
-
-    return ret;
-}
-
-Matrix operator-(int x, const Matrix& other)
-{
-    Matrix ret{ -other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] += x;
-
-    return ret;
-}
-
-Matrix operator-(long long x, const Matrix& other)
-{
-    Matrix ret{ -other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] += x;
-
-    return ret;
-}
-
 Matrix operator*(float x, const Matrix& other)
-{
-    Matrix ret{ other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] *= x;
-
-    return ret;
-}
-
-Matrix operator*(double x, const Matrix& other)
-{
-    Matrix ret{ other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] *= x;
-
-    return ret;
-}
-
-Matrix operator*(int x, const Matrix& other)
-{
-    Matrix ret{ other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] *= x;
-
-    return ret;
-}
-
-Matrix operator*(long long x, const Matrix& other)
 {
     Matrix ret{ other };
 

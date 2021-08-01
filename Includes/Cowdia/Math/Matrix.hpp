@@ -91,17 +91,8 @@ Matrix::Matrix(Args... args) : elem_{ args... }
 }
 
 [[nodiscard]] Matrix operator+(float x, const Matrix& other);
-[[nodiscard]] Matrix operator+(double x, const Matrix& other);
-[[nodiscard]] Matrix operator+(int x, const Matrix& other);
-[[nodiscard]] Matrix operator+(long long x, const Matrix& other);
 [[nodiscard]] Matrix operator-(float x, const Matrix& other);
-[[nodiscard]] Matrix operator-(double x, const Matrix& other);
-[[nodiscard]] Matrix operator-(int x, const Matrix& other);
-[[nodiscard]] Matrix operator-(long long x, const Matrix& other);
 [[nodiscard]] Matrix operator*(float x, const Matrix& other);
-[[nodiscard]] Matrix operator*(double x, const Matrix& other);
-[[nodiscard]] Matrix operator*(int x, const Matrix& other);
-[[nodiscard]] Matrix operator*(long long x, const Matrix& other);
 }  // namespace Cowdia::Math
 
 #endif  // COWDIA_MATRIX_HPP
