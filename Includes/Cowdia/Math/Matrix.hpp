@@ -1,12 +1,14 @@
 #ifndef COWDIA_MATRIX_HPP
 #define COWDIA_MATRIX_HPP
 
+#include <Cowdia/Core/Common.hpp>
+
 #include <cmath>
 #include <cstddef>
 
 namespace Cowdia::Math
 {
-class Matrix final
+class COWDIA_API Matrix final
 {
  public:
     static constexpr std::size_t MAT_SIZE = 4;
@@ -68,17 +70,8 @@ class Matrix final
     [[nodiscard]] Matrix& operator/=(float value);
 
     friend Matrix operator+(float value, const Matrix& other);
-    friend Matrix operator+(double value, const Matrix& other);
-    friend Matrix operator+(int value, const Matrix& other);
-    friend Matrix operator+(long long value, const Matrix& other);
     friend Matrix operator-(float value, const Matrix& other);
-    friend Matrix operator-(double value, const Matrix& other);
-    friend Matrix operator-(int value, const Matrix& other);
-    friend Matrix operator-(long long value, const Matrix& other);
     friend Matrix operator*(float value, const Matrix& other);
-    friend Matrix operator*(double value, const Matrix& other);
-    friend Matrix operator*(int value, const Matrix& other);
-    friend Matrix operator*(long long value, const Matrix& other);
 
  private:
     float elem_[MAT_SIZE][MAT_SIZE];
@@ -90,9 +83,38 @@ Matrix::Matrix(Args... args) : elem_{ args... }
     // Do nothing.
 }
 
-[[nodiscard]] Matrix operator+(float x, const Matrix& other);
-[[nodiscard]] Matrix operator-(float x, const Matrix& other);
-[[nodiscard]] Matrix operator*(float x, const Matrix& other);
+[[nodiscard]] inline Matrix operator+(float x, const Matrix& other)
+{
+    Matrix ret{ other };
+
+    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
+            ret.elem_[i][j] += x;
+
+    return ret;
+}
+
+[[nodiscard]] inline Matrix operator-(float x, const Matrix& other)
+{
+    Matrix ret{ -other };
+
+    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
+            ret.elem_[i][j] += x;
+
+    return ret;
+}
+
+[[nodiscard]] inline Matrix operator*(float x, const Matrix& other)
+{
+    Matrix ret{ other };
+
+    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
+        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
+            ret.elem_[i][j] *= x;
+
+    return ret;
+}
 }  // namespace Cowdia::Math
 
 #endif  // COWDIA_MATRIX_HPP

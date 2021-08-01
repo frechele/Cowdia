@@ -4,12 +4,12 @@ namespace Cowdia::Math
 {
 Matrix Matrix::Zero()
 {
-    return Matrix(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return Matrix(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
 }
 
 Matrix Matrix::Identity()
 {
-    return Matrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    return Matrix(1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f);
 }
 
 float Matrix::At(std::size_t y, std::size_t x) const
@@ -186,38 +186,5 @@ Matrix& Matrix::operator/=(float x)
             elem_[i][j] /= x;
 
     return *this;
-}
-
-Matrix operator+(float x, const Matrix& other)
-{
-    Matrix ret{ other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] += x;
-
-    return ret;
-}
-
-Matrix operator-(float x, const Matrix& other)
-{
-    Matrix ret{ -other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] += x;
-
-    return ret;
-}
-
-Matrix operator*(float x, const Matrix& other)
-{
-    Matrix ret{ other };
-
-    for (std::size_t i = 0; i < Matrix::MAT_SIZE; ++i)
-        for (std::size_t j = 0; j < Matrix::MAT_SIZE; ++j)
-            ret.elem_[i][j] *= x;
-
-    return ret;
 }
 }  // namespace Cowdia::Math
