@@ -119,7 +119,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
     {
         for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
-            REQUIRE(Adiv.At(j, i) ==
+            REQUIRE(Atrans.At(j, i) ==
                     doctest::Approx(i * 4 + j + 1).epsilon(eps));
         }
     }
