@@ -17,9 +17,8 @@ class COWDIA_API RenderWindow
     //! Create window.
     //! \param width window width.
     //! \param height window height.
-    //! \param fullscreen whether make window fullscreen or not.
     //! \return true if success to create.
-    [[nodiscard]] virtual bool Create(int width, int height, bool fullscreen) = 0;
+    [[nodiscard]] virtual bool Create(int width, int height);
 
     //! Destroy window.
     virtual void Destroy() = 0;
@@ -37,8 +36,11 @@ class COWDIA_API RenderWindow
     //! \param fullscreen whether make window fullscreen or not.
     virtual void Fullscreen(bool fullscreen);
 
-    //! Returns window size.
-    [[nodiscard]] Types::Recti GetSize() const;
+    //! Returns window width.
+    [[nodiscard]] int GetWidth() const;
+
+    //! Returns window height.
+    [[nodiscard]] int GetHeight() const;
 
     //! Returns whether window is full or not.
     [[nodiscard]] bool IsFullscreen() const;
@@ -48,6 +50,6 @@ class COWDIA_API RenderWindow
     int height_{ 0 };
     bool fullscreen_{ false };
 };
-}
+}  // namespace Cowdia::Rendering
 
 #endif  // COWDIA_RENDER_WINDOW_HPP

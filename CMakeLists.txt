@@ -13,9 +13,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
+# 3rd-party
+include_directories(Libraries/doctest/doctest)
+
 # Includes
 include_directories(Includes)
-include_directories(Libraries/doctest/doctest)
 
 # Compile options
 include(CMake/CompileOptions.cmake)
@@ -25,7 +27,9 @@ add_subdirectory(Sources/Cowdia)
 add_subdirectory(Tests/UnitTests)
 
 # Plugins
+if(WIN32)
 add_subdirectory(Extensions/D3D12Renderer)
+endif()
 
 # Applications
 add_subdirectory(Extensions/TestApp)

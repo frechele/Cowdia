@@ -1,5 +1,7 @@
 #include <Cowdia/Core/PluginManager.hpp>
 
+#include <Cowdia/Core/LogManager.hpp>
+
 #include <algorithm>
 
 namespace Cowdia::Core
@@ -31,6 +33,8 @@ void PluginManager::Load(const std::string& name)
     plugin->Load();
 
     plugin->GetProc("OnPluginLoad")();
+
+    LOG(LogLevel::INFO, "Plugin loaded " + name);
 }
 
 void PluginManager::Unload(const std::string& name)
@@ -45,6 +49,8 @@ void PluginManager::Unload(const std::string& name)
     delete it->second;
 
     assemblies_.erase(it);
+
+    LOG(LogLevel::INFO, "Plugin unloaded " + name);
 }
 
 void PluginManager::Install(Plugin* plugin)

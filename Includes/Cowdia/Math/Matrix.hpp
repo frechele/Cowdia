@@ -47,9 +47,9 @@ class Matrix final
     //! \param idx the index of element.
     float& At(std::size_t y, std::size_t x);
 
-	Matrix T() const;
-    
-	Matrix operator-() const;
+    Matrix T() const;
+
+    Matrix operator-() const;
 
     Matrix operator+(const Matrix& other) const;
     Matrix operator-(const Matrix& other) const;
@@ -67,7 +67,7 @@ class Matrix final
     Matrix& operator*=(float value);
     Matrix& operator/=(float value);
 
-	friend Matrix operator+(float value, const Matrix& other);
+	  friend Matrix operator+(float value, const Matrix& other);
     friend Matrix operator+(double value, const Matrix& other);
     friend Matrix operator+(int value, const Matrix& other);
     friend Matrix operator+(long long value, const Matrix& other);

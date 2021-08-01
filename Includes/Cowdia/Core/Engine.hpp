@@ -1,8 +1,11 @@
 #ifndef COWDIA_ENGINE_HPP
 #define COWDIA_ENGINE_HPP
 
+#include <Cowdia/Core/Application.hpp>
 #include <Cowdia/Core/Common.hpp>
+#include <Cowdia/Core/LogManager.hpp>
 #include <Cowdia/Core/PluginManager.hpp>
+#include <Cowdia/Game/SceneManager.hpp>
 #include <Cowdia/Rendering/RenderSystem.hpp>
 #include <Cowdia/Utils/Singleton.hpp>
 
@@ -14,6 +17,10 @@ namespace Cowdia::Core
 class COWDIA_API Engine final : public Utils::Singleton<Engine>
 {
  public:
+    //! Set the engine to debug mode.
+    //! \param value whether debug mode is enabled.
+    void SetDebugMode(bool value);
+
     //! Register render system to engine.
     //! \param renderSystem render system to register.
     void RegisterRenderSystem(Rendering::RenderSystem* renderSystem);
@@ -24,7 +31,7 @@ class COWDIA_API Engine final : public Utils::Singleton<Engine>
 
     //! Returns render system whose name is \p name.
     //! \param name name of the render system.
-    Rendering::RenderSystem* GetRenderSystemByName(
+    [[nodiscard]] Rendering::RenderSystem* GetRenderSystemByName(
         const std::string& name) const;
 
     //! Set render system.
@@ -32,25 +39,28 @@ class COWDIA_API Engine final : public Utils::Singleton<Engine>
     void SetRenderSystem(Rendering::RenderSystem* renderSystem);
 
     //! Returns current render system.
-    Rendering::RenderSystem* GetRenderSystem() const;
+    [[nodiscard]] Rendering::RenderSystem* GetRenderSystem() const;
 
     //! Run the engine.
-    void Run();
+    void Run(Application& app);
 
     //! Stop the engine.
     void Stop();
 
     //! Returns engine runnign status.
-    bool IsRunning() const;
+    [[nodiscard]] bool IsRunning() const;
 
  private:
+    bool isDebug_{ false };
     bool isRunning_{ false };
-
-    // Managers
-    PluginManager pluginMgr_;
 
     Rendering::RenderSystem* curRenderSystem_{ nullptr };
     std::unordered_map<std::string, Rendering::RenderSystem*> renderSystem_;
+
+    // Managers
+    LogManager logMgr_;
+    PluginManager pluginMgr_;
+    Game::SceneManager sceneMgr_;
 };
 }  // namespace Cowdia::Core
 

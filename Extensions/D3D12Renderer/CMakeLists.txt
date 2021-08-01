@@ -1,8 +1,10 @@
 # Target name
 set(target D3D12Renderer)
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../CMake/FindD3D12.cmake)
+
 # Includes
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${D3D12_INCLUDE_DIRS})
 
 # Sources
 file(GLOB_RECURSE sources ${CMAKE_CURRENT_SOURCE_DIR}/*.cc)
@@ -27,6 +29,7 @@ set_target_properties(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LINKER_OPTIONS}
+    ${D3D12_LIB_NAMES}
     Cowdia
 )
 
