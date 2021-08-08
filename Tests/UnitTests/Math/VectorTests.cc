@@ -60,8 +60,8 @@ TEST_CASE("[Math/Vector3] - Basic Arithmetic Operators")
 {
     constexpr float eps = 1e-5f;
 
-    Math::Vector3 A{ 1.f, 2.f, 3.f };
-    Math::Vector3 B{ 4.f, 5.f, 6.f };
+    Math::Vector3 A(1, 2, 3);
+    Math::Vector3 B(4, 5, 6);
 
     CHECK_EQ(A.Dim(), 3);
 

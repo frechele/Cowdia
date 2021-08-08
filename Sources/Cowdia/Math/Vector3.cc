@@ -2,6 +2,16 @@
 
 namespace Cowdia::Math
 {
+Vector3::Vector3(float x, float y, float z) : VectorBase<3>{ x, y, z }
+{
+    // Do nothing.
+}
+
+Vector3::Vector3(const VectorBase<3>& other) : VectorBase<3>(other)
+{
+    // Do nothing.
+}
+
 Vector3 Vector3::Cross(const Vector3& other) const
 {
     const float x = ptr[1] * other.ptr[2] - ptr[2] * other.ptr[1];

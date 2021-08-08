@@ -12,11 +12,23 @@ class COWDIA_API Vector4 final : public VectorBase<4>
     //! Default constructor.
     Vector4() = default;
 
-    //! Constructor with elements.
-    template <typename... Args>
-    Vector4(Args... args) : VectorBase<4>(args...)
-    {
-    }
+    //! Constructor with four elements.
+    Vector4(float x, float y, float z, float w);
+
+    //! Constructor with VectorBase.
+    Vector4(const VectorBase<4>& other);
+
+    //! Default copy constructor.
+    Vector4(const Vector4&) = default;
+
+    //! Default move constructor.
+    Vector4(Vector4&&) = default;
+
+    //! Default copy assignment operator.
+    Vector4& operator=(const Vector4&) = default;
+
+    //! Default move assignment operator.
+    Vector4& operator=(Vector4&&) = default;
 
     //! Returns x element.
     float& X();

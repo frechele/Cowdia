@@ -12,11 +12,23 @@ class COWDIA_API Vector2 final : public VectorBase<2>
     //! Default constructor.
     Vector2() = default;
 
-    //! Constructor with elements.
-    template <typename... Args>
-    Vector2(Args... args) : VectorBase<2>(args...)
-    {
-    }
+    //! Constructor with two elements.
+    Vector2(float x, float y);
+
+    //! Constructor with VectorBase.
+    Vector2(const VectorBase<2>& other);
+
+    //! Default copy constructor.
+    Vector2(const Vector2&) = default;
+
+    //! Default move constructor.
+    Vector2(Vector2&&) = default;
+
+    //! Default copy assignment operator.
+    Vector2& operator=(const Vector2&) = default;
+
+    //! Default move assignment operator.
+    Vector2& operator=(Vector2&&) = default;
 
     //! Returns x element.
     float& X();
