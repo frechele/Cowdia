@@ -18,6 +18,9 @@ class COWDIA_API Vector3 final : public VectorBase<3>
     {
     }
 
+    //! Returns outer product.
+    Vector3 Cross(const Vector3& other) const;
+
     //! Returns x element.
     float& X();
 
