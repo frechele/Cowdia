@@ -7,7 +7,7 @@
 namespace Cowdia::Math
 {
 template <std::size_t DIM>
-struct VectorBase final
+struct VectorBase
 {
     //! Default constructor.
     VectorBase() = default;
