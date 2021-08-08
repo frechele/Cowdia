@@ -69,7 +69,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
             REQUIRE(Aplus2.At(i, j) ==
-                    doctest::Approx(static_cast<float>(i * 4 + j + 3))
+                    doctest::Approx(i * 4.f + j + 3.f)
                         .epsilon(eps));
         }
     }
@@ -80,7 +80,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
             REQUIRE(Aminus2.At(i, j) ==
-                    doctest::Approx(static_cast<float>(i * 4 + j - 1))
+                    doctest::Approx(i * 4.f + j - 1.f)
                         .epsilon(eps));
         }
     }
@@ -91,7 +91,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
             REQUIRE(Amul.At(i, j) ==
-                    doctest::Approx(static_cast<float>(i * 12 + j * 3 + 3))
+                    doctest::Approx(i * 12.f + j * 3.f + 3)
                         .epsilon(eps));
         }
     }
@@ -102,7 +102,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
             REQUIRE(Adiv.At(i, j) ==
-                    doctest::Approx(static_cast<float>(i * 2 + (j + 1) / 2))
+                    doctest::Approx((i * 2.f + (j + 1.f) / 2.f))
                         .epsilon(eps));
         }
     }
@@ -113,7 +113,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
             REQUIRE(Atrans.At(j, i) ==
-                    doctest::Approx(static_cast<float>(i * 4 + j + 1))
+                    doctest::Approx(i * 4.f + j + 1.f)
                         .epsilon(eps));
         }
     }
@@ -124,7 +124,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
             REQUIRE(TwoplusA.At(i, j) ==
-                    doctest::Approx(static_cast<float>(i * 4 + j + 3))
+                    doctest::Approx(i * 4.f + j + 3.f)
                         .epsilon(eps));
         }
     }
@@ -135,7 +135,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
             REQUIRE(TwominusA.At(i, j) ==
-                    doctest::Approx(static_cast<float>(-static_cast<int>(i) * 4 - j + 1))
+                    doctest::Approx(-static_cast<int>(i) * 4.f - j + 1.f)
                         .epsilon(eps));
         }
     }
@@ -146,7 +146,7 @@ TEST_CASE("[Math/Matrix] - Basic Arithmetic Operators")
         for (std::size_t j = 0; j < Math::Matrix::MAT_SIZE; ++j)
         {
             REQUIRE(Threemul.At(i, j) ==
-                    doctest::Approx(static_cast<float>(i * 12 + j * 3 + 3))
+                    doctest::Approx(i * 12.f + j * 3.f + 3.f)
                         .epsilon(eps));
         }
     }
