@@ -37,6 +37,9 @@ struct VectorBase
     //! Returns the length of vector.
     [[nodiscard]] float Length() const;
 
+    //! Calculate inner product.
+    [[nodiscard]] float Dot(const VectorBase<DIM>& other) const;
+
     [[nodiscard]] VectorBase<DIM> operator+(const VectorBase<DIM>& other) const;
     [[nodiscard]] VectorBase<DIM> operator-(const VectorBase<DIM>& other) const;
     [[nodiscard]] VectorBase<DIM> operator+(float value) const;
@@ -76,6 +79,17 @@ float VectorBase<DIM>::Length() const
         sum += ptr[i] * ptr[i];
 
     return std::sqrt(sum);
+}
+
+template <std::size_t DIM>
+float VectorBase<DIM>::Dot(const VectorBase<DIM>& other) const
+{
+    float result = 0;
+
+    for (std::size_t i = 0; i < DIM; ++i)
+        result += ptr[i] * other.ptr[i];
+
+    return result;
 }
 
 template <std::size_t DIM>
