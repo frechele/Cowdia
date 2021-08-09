@@ -2,6 +2,7 @@
 #define COWDIA_QUATERNION_HPP
 
 #include <Cowdia/Core/Common.hpp>
+#include <Cowdia/Math/Vector3.hpp>
 
 namespace Cowdia::Math
 {
@@ -32,6 +33,12 @@ class COWDIA_API Quaternion final
     //! Returns quaternion from euler angle.
     static Quaternion Euler(float x, float y, float z);
 
+    //! Returns vector part.
+    const Vector3& GetVector() const;
+
+    //! Returns scalar part.
+    float GetScalar() const;
+
     Quaternion operator+(const Quaternion& other) const;
     Quaternion operator-(const Quaternion& other) const;
     Quaternion operator*(float v) const;
@@ -41,9 +48,7 @@ class COWDIA_API Quaternion final
     Quaternion& operator*=(float v);
 
  private:
-    float x_{ 0 };
-    float y_{ 0 };
-    float z_{ 0 };
+    Vector3 vector_;
     float w_{ 0 };
 };
 }  // namespace Cowdia::Math

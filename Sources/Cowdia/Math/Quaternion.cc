@@ -5,7 +5,7 @@
 namespace Cowdia::Math
 {
 Quaternion::Quaternion(float x, float y, float z, float w)
-    : x_(x), y_(y), z_(z), w_(w)
+    : vector_(x, y, z), w_(w)
 {
     // Do nothing.
 }
@@ -32,6 +32,16 @@ Quaternion Quaternion::Euler(float x, float y, float z)
     return Quaternion(quatX, quatY, quatZ, quatW);
 }
 
+const Vector3& Quaternion::GetVector() const
+{
+    return vector_;
+}
+
+float Quaternion::GetScalar() const
+{
+    return w_;
+}
+
 Quaternion Quaternion::operator+(const Quaternion& other) const
 {
     Quaternion tmp{ *this };
@@ -55,9 +65,7 @@ Quaternion Quaternion::operator*(float v) const
 
 Quaternion& Quaternion::operator+=(const Quaternion& other)
 {
-    x_ += other.x_;
-    y_ += other.y_;
-    z_ += other.z_;
+    vector_ += other.vector_;
     w_ += other.w_;
 
     return *this;
@@ -65,9 +73,7 @@ Quaternion& Quaternion::operator+=(const Quaternion& other)
 
 Quaternion& Quaternion::operator-=(const Quaternion& other)
 {
-    x_ -= other.x_;
-    y_ -= other.y_;
-    z_ -= other.z_;
+    vector_ -= other.vector_;
     w_ -= other.w_;
 
     return *this;
@@ -75,9 +81,7 @@ Quaternion& Quaternion::operator-=(const Quaternion& other)
 
 Quaternion& Quaternion::operator*=(float v)
 {
-    x_ *= v;
-    y_ *= v;
-    z_ *= v;
+    vector_ *= v;
     w_ *= v;
 
     return *this;
