@@ -13,7 +13,7 @@ struct Radian final
     Radian() = default;
 
     //! Constructor with a radian value.
-    Radian(float rad);
+    explicit Radian(float rad);
 
     //! Default copy constructor.
     Radian(const Radian&) = default;
@@ -28,10 +28,10 @@ struct Radian final
     Radian& operator=(Radian&&) = default;
 
     //! Convert to degree angle.
-    Degree ToDegree() const;
+    [[nodiscard]] Degree ToDegree() const;
 
-    bool operator==(Radian other) const;
-    bool operator!=(Radian other) const;
+    [[nodiscard]] bool operator==(Radian other) const;
+    [[nodiscard]] bool operator!=(Radian other) const;
 
     float value{ 0 };
 };
@@ -57,10 +57,10 @@ struct Degree final
     Degree& operator=(Degree&&) = default;
 
     //! Convert to radius angle.
-    Radian ToRadian() const;
+    [[nodiscard]] Radian ToRadian() const;
 
-    bool operator==(Degree other) const;
-    bool operator!=(Degree other) const;
+    [[nodiscard]] bool operator==(Degree other) const;
+    [[nodiscard]] bool operator!=(Degree other) const;
 
     float value{ 0 };
 };
