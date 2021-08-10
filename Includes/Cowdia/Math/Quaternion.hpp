@@ -26,7 +26,7 @@ class COWDIA_API Quaternion final
 
     //! Default move assignment operator.
     Quaternion& operator=(Quaternion&&) = default;
-    
+
     //! Returns identity quaternion.
     static Quaternion Identity();
 
@@ -39,12 +39,20 @@ class COWDIA_API Quaternion final
     //! Returns scalar part.
     float GetScalar() const;
 
+    //! Returns the length of quaternion.
+    float Length() const;
+
+    //! Calculate inner product.
+    float Dot(const Quaternion& other) const;
+
     Quaternion operator+(const Quaternion& other) const;
     Quaternion operator-(const Quaternion& other) const;
+    Quaternion operator*(const Quaternion& other) const;
     Quaternion operator*(float v) const;
 
     Quaternion& operator+=(const Quaternion& other);
     Quaternion& operator-=(const Quaternion& other);
+    Quaternion& operator*=(const Quaternion& other);
     Quaternion& operator*=(float v);
 
  private:

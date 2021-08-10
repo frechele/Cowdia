@@ -42,6 +42,19 @@ float Quaternion::GetScalar() const
     return w_;
 }
 
+float Quaternion::Length() const
+{
+    const float vectorLength = vector_.Length();
+    const float squaredLength = w_ * w_ + vectorLength * vectorLength;
+
+    return std::sqrt(squaredLength);
+}
+
+float Quaternion::Dot(const Quaternion& other) const
+{
+    return (w_ * other.w_) + (vector_.Dot(other.vector_));
+}
+
 Quaternion Quaternion::operator+(const Quaternion& other) const
 {
     Quaternion tmp{ *this };
@@ -53,6 +66,13 @@ Quaternion Quaternion::operator-(const Quaternion& other) const
 {
     Quaternion tmp{ *this };
     tmp -= other;
+    return tmp;
+}
+
+Quaternion Quaternion::operator*(const Quaternion& other) const
+{
+    Quaternion tmp{ *this };
+    tmp *= other;
     return tmp;
 }
 
@@ -75,6 +95,17 @@ Quaternion& Quaternion::operator-=(const Quaternion& other)
 {
     vector_ -= other.vector_;
     w_ -= other.w_;
+
+    return *this;
+}
+
+Quaternion& Quaternion::operator*=(const Quaternion& other)
+{
+    const float vecDot = vector_.Dot(other.vector_);
+    const Vector3 vecCross = vector_.Cross(other.vector_);
+
+    vector_ = vector_ * other.w_ + other.vector_ * w_ + vecCross;
+    w_ = w_ * other.w_ - vecDot;
 
     return *this;
 }
