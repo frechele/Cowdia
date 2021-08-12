@@ -12,11 +12,26 @@ class COWDIA_API Vector3 final : public VectorBase<3>
     //! Default constructor.
     Vector3() = default;
 
-    //! Constructor with elements.
-    template <typename... Args>
-    Vector3(Args... args) : VectorBase<3>(args...)
-    {
-    }
+    //! Constructor with three elements.
+    Vector3(float x, float y, float z);
+
+    //! Constructor with VectorBase.
+    Vector3(const VectorBase<3>& other);
+
+    //! Default copy constructor.
+    Vector3(const Vector3&) = default;
+
+    //! Default move constructor.
+    Vector3(Vector3&&) = default;
+
+    //! Default copy assignment operator.
+    Vector3& operator=(const Vector3&) = default;
+
+    //! Default move assignment operator.
+    Vector3& operator=(Vector3&&) = default;
+
+    //! Returns outer product.
+    Vector3 Cross(const Vector3& other) const;
 
     //! Returns x element.
     float& X();

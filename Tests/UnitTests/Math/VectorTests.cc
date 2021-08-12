@@ -14,8 +14,6 @@ TEST_CASE("[Math/Vector2] - Basic Arithmetic Operators")
     Math::Vector2 B{ 3.f, 4.f };
 
     CHECK_EQ(A.Dim(), 2);
-    REQUIRE(B.Length() == doctest::Approx(5.f).epsilon(eps));
-    REQUIRE(A.Dot(B) == doctest::Approx(11.f).epsilon(eps));
 
     REQUIRE(A.X() == doctest::Approx(1.f).epsilon(eps));
     REQUIRE(A.Y() == doctest::Approx(2.f).epsilon(eps));
@@ -47,16 +45,25 @@ TEST_CASE("[Math/Vector2] - Basic Arithmetic Operators")
     REQUIRE(Adiv.Y() ==  doctest::Approx(1.f).epsilon(eps));
 }
 
+TEST_CASE("[Math/Vector2] - Advanced Operators")
+{
+    constexpr float eps = 1e-5f;
+
+    Math::Vector2 A{ 1.f, 2.f };
+    Math::Vector2 B{ 3.f, 4.f };
+
+    REQUIRE(B.Length() == doctest::Approx(5.f).epsilon(eps));
+    REQUIRE(A.Dot(B) == doctest::Approx(11.f).epsilon(eps));
+}
+
 TEST_CASE("[Math/Vector3] - Basic Arithmetic Operators")
 {
     constexpr float eps = 1e-5f;
 
-    Math::Vector3 A{ 1.f, 2.f, 3.f };
-    Math::Vector3 B{ 4.f, 5.f, 6.f };
+    Math::Vector3 A(1, 2, 3);
+    Math::Vector3 B(4, 5, 6);
 
     CHECK_EQ(A.Dim(), 3);
-    REQUIRE(B.Length() == doctest::Approx(std::sqrt(77.f)).epsilon(eps));
-    REQUIRE(A.Dot(B) == doctest::Approx(32.f).epsilon(eps));
 
     REQUIRE(A.X() == doctest::Approx(1.f).epsilon(eps));
     REQUIRE(A.Y() == doctest::Approx(2.f).epsilon(eps));
@@ -94,6 +101,29 @@ TEST_CASE("[Math/Vector3] - Basic Arithmetic Operators")
     REQUIRE(Adiv.X() == doctest::Approx(0.5f).epsilon(eps));
     REQUIRE(Adiv.Y() == doctest::Approx(1.f).epsilon(eps));
     REQUIRE(Adiv.Z() == doctest::Approx(1.5f).epsilon(eps));
+}
+
+TEST_CASE("[Math/Vector3] - Advanced Operators")
+{
+    constexpr float eps = 1e-5f;
+
+    Math::Vector3 A{ 1.f, 2.f, 3.f };
+    Math::Vector3 B{ 4.f, 5.f, 6.f };
+
+    REQUIRE(B.Length() == doctest::Approx(std::sqrt(77.f)).epsilon(eps));
+    REQUIRE(A.Dot(B) == doctest::Approx(32.f).epsilon(eps));
+
+    auto AcrossA = A.Cross(A);
+    REQUIRE(AcrossA.X() == doctest::Approx(0).epsilon(eps));
+    REQUIRE(AcrossA.Y() == doctest::Approx(0).epsilon(eps));
+    REQUIRE(AcrossA.Z() == doctest::Approx(0).epsilon(eps));
+
+    Math::Vector3 C{ 1.f, 3.f, 4.f };
+    Math::Vector3 D{ 2.f, 7.f, -5.f };
+    auto CcrossD = C.Cross(D);
+    REQUIRE(CcrossD.X() == doctest::Approx(-43.f).epsilon(eps));
+    REQUIRE(CcrossD.Y() == doctest::Approx(13.f).epsilon(eps));
+    REQUIRE(CcrossD.Z() == doctest::Approx(1.f).epsilon(eps));
 }
 
 TEST_CASE("[Math/Vector4] - Basic Arithmetic Operators")
@@ -151,4 +181,15 @@ TEST_CASE("[Math/Vector4] - Basic Arithmetic Operators")
     REQUIRE(Adiv.Y() == doctest::Approx(1.f).epsilon(eps));
     REQUIRE(Adiv.Z() == doctest::Approx(1.5f).epsilon(eps));
     REQUIRE(Adiv.W() == doctest::Approx(2.f).epsilon(eps));
+}
+
+TEST_CASE("[Math/Vector4] - Advanced Operators")
+{
+    constexpr float eps = 1e-5f;
+
+    Math::Vector4 A{ 1.f, 2.f, 3.f, 4.f };
+    Math::Vector4 B{ 5.f, 6.f, 7.f, 8.f };
+
+    REQUIRE(B.Length() == doctest::Approx(std::sqrt(174.f)).epsilon(eps));
+    REQUIRE(A.Dot(B) == doctest::Approx(70.f).epsilon(eps));
 }

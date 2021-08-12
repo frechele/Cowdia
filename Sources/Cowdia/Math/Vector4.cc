@@ -2,6 +2,15 @@
 
 namespace Cowdia::Math
 {
+Vector4::Vector4(float x, float y, float z, float w)
+    : VectorBase<4>{ x, y, z, w }
+{
+}
+
+Vector4::Vector4(const VectorBase<4>& other) : VectorBase<4>(other)
+{
+}
+
 float& Vector4::X()
 {
     return ptr[0];
