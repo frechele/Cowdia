@@ -28,27 +28,27 @@ class COWDIA_API Quaternion final
     Quaternion& operator=(Quaternion&&) = default;
 
     //! Returns identity quaternion.
-    static Quaternion Identity();
+    [[nodiscard]] static Quaternion Identity();
 
     //! Returns quaternion from euler angle.
-    static Quaternion Euler(float x, float y, float z);
+    [[nodiscard]] static Quaternion Euler(float x, float y, float z);
 
     //! Returns vector part.
-    const Vector3& GetVector() const;
+    [[nodiscard]] const Vector3& GetVector() const;
 
     //! Returns scalar part.
-    float GetScalar() const;
+    [[nodiscard]] float GetScalar() const;
 
     //! Returns the length of quaternion.
-    float Length() const;
+    [[nodiscard]] float Length() const;
 
     //! Calculate inner product.
-    float Dot(const Quaternion& other) const;
+    [[nodiscard]] float Dot(const Quaternion& other) const;
 
-    Quaternion operator+(const Quaternion& other) const;
-    Quaternion operator-(const Quaternion& other) const;
-    Quaternion operator*(const Quaternion& other) const;
-    Quaternion operator*(float v) const;
+    [[nodiscard]] Quaternion operator+(const Quaternion& other) const;
+    [[nodiscard]] Quaternion operator-(const Quaternion& other) const;
+    [[nodiscard]] Quaternion operator*(const Quaternion& other) const;
+    [[nodiscard]] Quaternion operator*(float v) const;
 
     Quaternion& operator+=(const Quaternion& other);
     Quaternion& operator-=(const Quaternion& other);

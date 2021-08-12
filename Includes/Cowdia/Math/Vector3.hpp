@@ -31,25 +31,25 @@ class COWDIA_API Vector3 final : public VectorBase<3>
     Vector3& operator=(Vector3&&) = default;
 
     //! Returns outer product.
-    Vector3 Cross(const Vector3& other) const;
+    [[nodiscard]] Vector3 Cross(const Vector3& other) const;
 
     //! Returns x element.
-    float& X();
+    [[nodiscard]] float& X();
 
     //! Returns x element.
-    float X() const;
+    [[nodiscard]] float X() const;
 
     //! Returns y element.
-    float& Y();
+    [[nodiscard]] float& Y();
 
     //! Returns y element.
-    float Y() const;
+    [[nodiscard]] float Y() const;
 
     //! Returns z element.
-    float& Z();
+    [[nodiscard]] float& Z();
 
     //! Returns z element.
-    float Z() const;
+    [[nodiscard]] float Z() const;
 };
 }  // namespace Cowdia::Math
 
