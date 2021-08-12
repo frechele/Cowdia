@@ -7,7 +7,7 @@ namespace Cowdia::Math
 {
 struct Degree;
 
-struct Radian final
+struct COWDIA_API Radian final
 {
     //! Default constructor.
     Radian() = default;
@@ -36,7 +36,7 @@ struct Radian final
     float value{ 0 };
 };
 
-struct Degree final
+struct COWDIA_API Degree final
 {
     //! Default constructor.
     Degree() = default;
