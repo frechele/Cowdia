@@ -31,16 +31,16 @@ class COWDIA_API Vector2 final : public VectorBase<2>
     Vector2& operator=(Vector2&&) = default;
 
     //! Returns x element.
-    float& X();
+    [[nodiscard]] float& X();
 
     //! Returns x element.
-    float X() const;
+    [[nodiscard]] float X() const;
 
     //! Returns y element.
-    float& Y();
+    [[nodiscard]] float& Y();
 
     //! Returns y element.
-    float Y() const;
+    [[nodiscard]] float Y() const;
 };
 }  // namespace Cowdia::Math
 

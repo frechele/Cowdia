@@ -61,13 +61,13 @@ class COWDIA_API Matrix final
     [[nodiscard]] Matrix operator*(float value) const;
     [[nodiscard]] Matrix operator/(float value) const;
 
-    [[nodiscard]] Matrix& operator+=(const Matrix& other);
-    [[nodiscard]] Matrix& operator-=(const Matrix& other);
-    [[nodiscard]] Matrix& operator*=(const Matrix& other);
-    [[nodiscard]] Matrix& operator+=(float value);
-    [[nodiscard]] Matrix& operator-=(float value);
-    [[nodiscard]] Matrix& operator*=(float value);
-    [[nodiscard]] Matrix& operator/=(float value);
+    Matrix& operator+=(const Matrix& other);
+    Matrix& operator-=(const Matrix& other);
+    Matrix& operator*=(const Matrix& other);
+    Matrix& operator+=(float value);
+    Matrix& operator-=(float value);
+    Matrix& operator*=(float value);
+    Matrix& operator/=(float value);
 
     friend Matrix operator+(float value, const Matrix& other);
     friend Matrix operator-(float value, const Matrix& other);

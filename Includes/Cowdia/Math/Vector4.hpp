@@ -31,28 +31,28 @@ class COWDIA_API Vector4 final : public VectorBase<4>
     Vector4& operator=(Vector4&&) = default;
 
     //! Returns x element.
-    float& X();
+    [[nodiscard]] float& X();
 
     //! Returns x element.
-    float X() const;
+    [[nodiscard]] float X() const;
 
     //! Returns y element.
-    float& Y();
+    [[nodiscard]] float& Y();
 
     //! Returns y element.
-    float Y() const;
+    [[nodiscard]] float Y() const;
 
     //! Returns z element.
-    float& Z();
+    [[nodiscard]] float& Z();
 
     //! Returns z element.
-    float Z() const;
+    [[nodiscard]] float Z() const;
 
     //! Returns w element.
-    float& W();
+    [[nodiscard]] float& W();
 
     //! Returns w element.
-    float W() const;
+    [[nodiscard]] float W() const;
 };
 }  // namespace Cowdia::Math
 
