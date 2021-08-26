@@ -15,6 +15,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 # 3rd-party
 include_directories(Libraries/doctest/doctest)
+include_directories(Libraries/entt/single_include)
 
 # Includes
 include_directories(Includes)
